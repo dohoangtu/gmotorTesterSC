@@ -1,0 +1,13 @@
+INPUT(
+./release\main.o
+./release\gmotortestersc.o
+./release\panelcontrolmotor.o
+./release\choseaddmotor.o
+./release\settingserial.o
+./release\messagebox.o
+./release\moc_gmotortestersc.o
+./release\moc_panelcontrolmotor.o
+./release\moc_choseaddmotor.o
+./release\moc_settingserial.o
+./release\moc_messagebox.o
+);

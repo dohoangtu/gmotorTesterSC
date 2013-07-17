@@ -1,0 +1,82 @@
+#include "mavlink_types.h"
+
+#define ONBOARD_PARAM_COUNT    44
+#define ONBOARD_PARAM_NAME_LENGTH 16
+
+typedef struct
+{
+    float param[ONBOARD_PARAM_COUNT];
+    char * param_name[ONBOARD_PARAM_COUNT]; 
+    uint16_t parameter_i; // parameter index
+
+}global_struct;
+  
+enum gMAV_ENUM
+{
+  gMAV_SEND_MSG,
+  gMAV_SEND_PARAM,
+  gMAV_SEND_NONE,
+};
+	
+enum
+{ 
+	PARAM_VERSION,
+	PARAM_SERIAL_NUMBER,
+	PARAM_PITCH_P,
+	PARAM_PITCH_I,
+	PARAM_PITCH_D,
+	
+	PARAM_ROLL_P,
+	PARAM_ROLL_I,
+	PARAM_ROLL_D,
+
+	PARAM_YAW_P,
+	PARAM_YAW_I,
+	PARAM_YAW_D,
+
+	PARAM_PITCH_POWER,
+	PARAM_ROLL_POWER,
+	PARAM_YAW_POWER,
+
+	PARAM_PITCH_FOLLOW,
+	PARAM_ROLL_FOLLOW,
+	PARAM_YAW_FOLLOW,
+	PARAM_GYRO_TRUST,
+
+	PARAM_NPOLES_PITCH,
+	PARAM_NPOLES_ROLL,
+	PARAM_NPOLES_YAW,
+
+	PARAM_DIR_MOTOR_PITCH,
+	PARAM_DIR_MOTOR_ROLL,
+	PARAM_DIR_MOTOR_YAW,
+	PARAM_MOTOR_FREQ,
+	PARAM_RADIO_TYPE,
+	PARAM_GYRO_LPF,
+	PARAM_TRAVEL_MIN_PITCH,
+	PARAM_TRAVEL_MAX_PITCH,
+	PARAM_TRAVEL_MIN_ROLL,
+	PARAM_TRAVEL_MAX_ROLL,
+	PARAM_TRAVEL_MIN_YAW,
+	PARAM_TRAVEL_MAX_YAW,
+
+	PARAM_RC_PITCH_LPF,
+	PARAM_RC_ROLL_LPF,
+	PARAM_RC_YAW_LPF,
+	PARAM_SBUS_PITCH_CHAN,
+	PARAM_SBUS_ROLL_CHAN,
+	PARAM_SBUS_YAW_CHAN,
+	PARAM_SBUS_MODE_CHAN,
+	PARAM_ACCX_OFFSET,
+	PARAM_ACCY_OFFSET,
+	PARAM_ACCZ_OFFSET,
+	PARAM_USE_GPS,
+};
+
+void param2Config(uint16_t index);
+void getParamsDefault(void);
+void getParamsFromFlashAfterPowerOn(void) ;
+void mavlinkSend(void);
+void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t* msg);
+int  mavlinkReceive(void);
+

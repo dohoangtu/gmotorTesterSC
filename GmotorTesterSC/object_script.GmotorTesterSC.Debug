@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\gmotortestersc.o
+./debug\panelcontrolmotor.o
+./debug\choseaddmotor.o
+./debug\settingserial.o
+./debug\messagebox.o
+./debug\moc_gmotortestersc.o
+./debug\moc_panelcontrolmotor.o
+./debug\moc_choseaddmotor.o
+./debug\moc_settingserial.o
+./debug\moc_messagebox.o
+);
