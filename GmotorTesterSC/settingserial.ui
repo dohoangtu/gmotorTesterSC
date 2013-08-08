@@ -32,8 +32,8 @@
    <string>Setting serial</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>icon/Settings.png</normaloff>icon/Settings.png</iconset>
+   <iconset resource="MotorTesting.qrc">
+    <normaloff>:/icon/icon/Settings.png</normaloff>:/icon/icon/Settings.png</iconset>
   </property>
   <property name="toolTip">
    <string/>
@@ -233,6 +233,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="MotorTesting.qrc"/>
+ </resources>
  <connections/>
 </ui>

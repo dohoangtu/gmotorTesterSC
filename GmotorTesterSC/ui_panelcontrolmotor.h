@@ -45,7 +45,7 @@ public:
     QLabel *label_3;
     QLabel *lbTemperature;
     QLCDNumber *lcdSpeed;
-    QLabel *lbSpeed;
+    QLabel *lbVSpeed;
     QLCDNumber *lcdTemperature;
     QProgressBar *pbTimeProcess;
     QPushButton *btPower;
@@ -55,6 +55,9 @@ public:
     QPushButton *btDir;
     QDial *Motor;
     QSlider *ValueSpeed;
+    QSlider *valuePower;
+    QLabel *lbPower;
+    QLabel *lbSpeed;
 
     void setupUi(QWidget *panelControlMotor)
     {
@@ -157,10 +160,10 @@ public:
         lcdSpeed->setLineWidth(2);
         lcdSpeed->setSmallDecimalPoint(false);
         lcdSpeed->setSegmentStyle(QLCDNumber::Flat);
-        lbSpeed = new QLabel(gbDisplay);
-        lbSpeed->setObjectName(QStringLiteral("lbSpeed"));
-        lbSpeed->setGeometry(QRect(10, 90, 20, 23));
-        lbSpeed->setFont(font1);
+        lbVSpeed = new QLabel(gbDisplay);
+        lbVSpeed->setObjectName(QStringLiteral("lbVSpeed"));
+        lbVSpeed->setGeometry(QRect(10, 90, 20, 23));
+        lbVSpeed->setFont(font1);
         lcdTemperature = new QLCDNumber(gbDisplay);
         lcdTemperature->setObjectName(QStringLiteral("lcdTemperature"));
         lcdTemperature->setGeometry(QRect(230, 90, 91, 31));
@@ -196,8 +199,8 @@ public:
 #endif // QT_NO_ACCESSIBILITY
         btPower->setText(QStringLiteral(""));
         QIcon icon;
-        icon.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Power-Button_on.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Power-Button_off.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon.addFile(QStringLiteral(":/icon/icon/Power-Button_on.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/icon/icon/Power-Button_off.png"), QSize(), QIcon::Normal, QIcon::On);
         btPower->setIcon(icon);
         btPower->setIconSize(QSize(50, 50));
         btPower->setShortcut(QStringLiteral(""));
@@ -216,8 +219,8 @@ public:
         btRun->setObjectName(QStringLiteral("btRun"));
         btRun->setGeometry(QRect(170, 310, 41, 41));
         QIcon icon1;
-        icon1.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Media-Play_play.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon1.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Stop_squar.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon1.addFile(QStringLiteral(":/icon/icon/Media-Play_play.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QStringLiteral(":/icon/icon/Stop_squar.png"), QSize(), QIcon::Normal, QIcon::On);
         btRun->setIcon(icon1);
         btRun->setIconSize(QSize(40, 40));
         btRun->setCheckable(true);
@@ -226,8 +229,8 @@ public:
         btPause->setGeometry(QRect(220, 310, 41, 41));
         btPause->setText(QStringLiteral(""));
         QIcon icon2;
-        icon2.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Media-Pause_off.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon2.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Media-Pause_on.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon2.addFile(QStringLiteral(":/icon/icon/Media-Pause_off.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QStringLiteral(":/icon/icon/Media-Pause_on.png"), QSize(), QIcon::Normal, QIcon::On);
         btPause->setIcon(icon2);
         btPause->setIconSize(QSize(40, 40));
         btPause->setCheckable(true);
@@ -235,15 +238,15 @@ public:
         btDir->setObjectName(QStringLiteral("btDir"));
         btDir->setGeometry(QRect(270, 310, 41, 41));
         QIcon icon3;
-        icon3.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Reload_CW.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon3.addFile(QStringLiteral("../../Gimbal_V1.0/icon/Reload_CCW.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon3.addFile(QStringLiteral(":/icon/icon/Reload_CW.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QStringLiteral(":/icon/icon/Reload_CCW.png"), QSize(), QIcon::Normal, QIcon::On);
         btDir->setIcon(icon3);
         btDir->setIconSize(QSize(40, 40));
         btDir->setCheckable(true);
         Motor = new QDial(gbControl);
         Motor->setObjectName(QStringLiteral("Motor"));
         Motor->setEnabled(true);
-        Motor->setGeometry(QRect(0, 30, 321, 221));
+        Motor->setGeometry(QRect(0, 30, 321, 251));
         Motor->setMinimum(1);
         Motor->setInvertedAppearance(false);
         Motor->setInvertedControls(false);
@@ -251,15 +254,28 @@ public:
         Motor->setNotchesVisible(true);
         ValueSpeed = new QSlider(gbControl);
         ValueSpeed->setObjectName(QStringLiteral("ValueSpeed"));
-        ValueSpeed->setGeometry(QRect(10, 270, 311, 31));
+        ValueSpeed->setGeometry(QRect(290, 50, 31, 231));
         ValueSpeed->setMinimum(1);
         ValueSpeed->setMaximum(11);
         ValueSpeed->setPageStep(1);
         ValueSpeed->setValue(11);
-        ValueSpeed->setOrientation(Qt::Horizontal);
+        ValueSpeed->setOrientation(Qt::Vertical);
         ValueSpeed->setInvertedAppearance(true);
         ValueSpeed->setTickPosition(QSlider::TicksBelow);
         ValueSpeed->setTickInterval(3);
+        valuePower = new QSlider(gbControl);
+        valuePower->setObjectName(QStringLiteral("valuePower"));
+        valuePower->setGeometry(QRect(-1, 50, 31, 231));
+        valuePower->setPageStep(5);
+        valuePower->setValue(99);
+        valuePower->setOrientation(Qt::Vertical);
+        valuePower->setTickPosition(QSlider::TicksAbove);
+        lbPower = new QLabel(gbControl);
+        lbPower->setObjectName(QStringLiteral("lbPower"));
+        lbPower->setGeometry(QRect(10, 20, 71, 16));
+        lbSpeed = new QLabel(gbControl);
+        lbSpeed->setObjectName(QStringLiteral("lbSpeed"));
+        lbSpeed->setGeometry(QRect(245, 20, 71, 20));
         gbControl->raise();
         gbDisplay->raise();
         btPower->raise();
@@ -283,10 +299,12 @@ public:
         label_2->setText(QApplication::translate("panelControlMotor", "M", 0));
         label_3->setText(QApplication::translate("panelControlMotor", "S", 0));
         lbTemperature->setText(QApplication::translate("panelControlMotor", "T:", 0));
-        lbSpeed->setText(QApplication::translate("panelControlMotor", "V:", 0));
+        lbVSpeed->setText(QApplication::translate("panelControlMotor", "V:", 0));
         gbControl->setTitle(QString());
         btRun->setText(QString());
         btDir->setText(QString());
+        lbPower->setText(QApplication::translate("panelControlMotor", "TextLabel", 0));
+        lbSpeed->setText(QApplication::translate("panelControlMotor", "TextLabel", 0));
     } // retranslateUi
 
 };

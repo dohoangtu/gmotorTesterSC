@@ -41,7 +41,7 @@ public:
         choseAddMotor->setMinimumSize(QSize(176, 86));
         choseAddMotor->setMaximumSize(QSize(176, 86));
         QIcon icon;
-        icon.addFile(QStringLiteral("icon/AddNew.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/icon/icon/AddNew.png"), QSize(), QIcon::Normal, QIcon::Off);
         choseAddMotor->setWindowIcon(icon);
         gridLayout = new QGridLayout(choseAddMotor);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));

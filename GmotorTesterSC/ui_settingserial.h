@@ -56,7 +56,7 @@ public:
         settingSerial->setMinimumSize(QSize(200, 311));
         settingSerial->setMaximumSize(QSize(200, 311));
         QIcon icon;
-        icon.addFile(QStringLiteral("icon/Settings.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/icon/icon/Settings.png"), QSize(), QIcon::Normal, QIcon::Off);
         settingSerial->setWindowIcon(icon);
         settingSerial->setIconSize(QSize(40, 40));
         settingSerial->setToolButtonStyle(Qt::ToolButtonTextOnly);

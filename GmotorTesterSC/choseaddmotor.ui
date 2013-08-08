@@ -26,8 +26,8 @@
    <string>Chose Motor</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>icon/AddNew.png</normaloff>icon/AddNew.png</iconset>
+   <iconset resource="MotorTesting.qrc">
+    <normaloff>:/icon/icon/AddNew.png</normaloff>:/icon/icon/AddNew.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -65,6 +65,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="MotorTesting.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -6,44 +6,742 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>791</width>
-    <height>695</height>
+    <width>1259</width>
+    <height>737</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1259</width>
+    <height>737</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>GmotorTesterSC</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>icon/Armor.png</normaloff>icon/Armor.png</iconset>
+   <iconset resource="MotorTesting.qrc">
+    <normaloff>:/icon/icon/Armor.png</normaloff>:/icon/icon/Armor.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
+     <widget class="QTabWidget" name="tabControlMotor">
+      <property name="minimumSize">
+       <size>
+        <width>360</width>
+        <height>650</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>360</width>
+        <height>600</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QTableWidget" name="tableMotor">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="rowCount">
+            <number>10</number>
+           </property>
+           <property name="columnCount">
+            <number>7</number>
+           </property>
+           <attribute name="horizontalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>120</number>
+           </attribute>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderDefaultSectionSize">
+            <number>20</number>
+           </attribute>
+           <attribute name="verticalHeaderStretchLastSection">
+            <bool>false</bool>
+           </attribute>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Status</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Start Time</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Stop Time</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Remaining Time</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Run time</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>temperature</string>
+            </property>
+           </column>
+           <item row="0" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="1" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="2" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="3" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="4" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="5" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="6" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="7" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="8" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+           <item row="9" column="6">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="textAlignment">
+             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QwtPlot" name="plotTemperature">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777214</height>
+            </size>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="autoReplot">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_5" native="true"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QTabWidget" name="tabControlMotor">
+       <widget class="QWidget" name="widget_3" native="true">
         <property name="minimumSize">
          <size>
-          <width>360</width>
-          <height>600</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>360</width>
-          <height>600</height>
+          <width>361</width>
+          <height>40</height>
          </size>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QTreeWidget" name="treeWidget">
-        <column>
-         <property name="text">
-          <string notr="true">1</string>
-         </property>
-        </column>
+       <widget class="QWidget" name="widget_2" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>661</width>
+          <height>40</height>
+         </size>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QWidget" name="widget_6" native="true">
+           <widget class="QCheckBox" name="checkBoxM1">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM1">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_8" native="true">
+           <widget class="QCheckBox" name="checkBoxM2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M2</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM2">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 0, 255);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_9" native="true">
+           <widget class="QCheckBox" name="checkBoxM3">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M3</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM3">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_10" native="true">
+           <widget class="QCheckBox" name="checkBoxM4">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M4</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM4">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(206, 206, 206);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_11" native="true">
+           <widget class="QCheckBox" name="checkBoxM5">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M5</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM5">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(85, 255, 127);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_12" native="true">
+           <widget class="QCheckBox" name="checkBoxM6">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M6</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM6">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 0, 255);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_13" native="true">
+           <widget class="QCheckBox" name="checkBoxM7">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>49</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>M7</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM7">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_14" native="true">
+           <widget class="QCheckBox" name="checkBoxM8">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M8</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM8">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_15" native="true">
+           <widget class="QCheckBox" name="checkBoxM9">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>35</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>35</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M9</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM9">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 85, 127);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_16" native="true">
+           <widget class="QCheckBox" name="checkBoxM10">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>40</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>M10</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="labelM10">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>0</y>
+              <width>15</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>15</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 170, 255);
+background-color: rgb(85, 170, 127);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_4" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>35</height>
+         </size>
+        </property>
        </widget>
       </item>
      </layout>
@@ -55,7 +753,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>791</width>
+     <width>1259</width>
      <height>21</height>
     </rect>
    </property>
@@ -101,12 +799,13 @@
    <addaction name="actionConnect"/>
    <addaction name="actionSetting"/>
    <addaction name="actionE_it"/>
+   <addaction name="actionLed"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
    <property name="icon">
-    <iconset>
-     <normaloff>icon/AddNew.png</normaloff>icon/AddNew.png</iconset>
+    <iconset resource="MotorTesting.qrc">
+     <normaloff>:/icon/icon/AddNew.png</normaloff>:/icon/icon/AddNew.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -120,8 +819,8 @@
   </action>
   <action name="actionDelete">
    <property name="icon">
-    <iconset>
-     <normaloff>icon/Delete.png</normaloff>icon/Delete.png</iconset>
+    <iconset resource="MotorTesting.qrc">
+     <normaloff>:/icon/icon/Delete.png</normaloff>:/icon/icon/Delete.png</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -135,8 +834,8 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
-     <normaloff>icon/Open.png</normaloff>icon/Open.png</iconset>
+    <iconset resource="MotorTesting.qrc">
+     <normaloff>:/icon/icon/Open.png</normaloff>:/icon/icon/Open.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -153,9 +852,9 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>icon/Disconnect.png</normaloff>
-     <normalon>icon/Connect.png</normalon>icon/Disconnect.png</iconset>
+    <iconset resource="MotorTesting.qrc">
+     <normaloff>:/icon/icon/Disconnect.png</normaloff>
+     <normalon>:/icon/icon/Connect.png</normalon>:/icon/icon/Disconnect.png</iconset>
    </property>
    <property name="text">
     <string>Connect</string>
@@ -169,8 +868,8 @@
   </action>
   <action name="actionSetting">
    <property name="icon">
-    <iconset>
-     <normaloff>icon/Settings.png</normaloff>icon/Settings.png</iconset>
+    <iconset resource="MotorTesting.qrc">
+     <normaloff>:/icon/icon/Settings.png</normaloff>:/icon/icon/Settings.png</iconset>
    </property>
    <property name="text">
     <string>Setting</string>
@@ -184,8 +883,8 @@
   </action>
   <action name="actionE_it">
    <property name="icon">
-    <iconset>
-     <normaloff>icon/Exit.png</normaloff>icon/Exit.png</iconset>
+    <iconset resource="MotorTesting.qrc">
+     <normaloff>:/icon/icon/Exit.png</normaloff>:/icon/icon/Exit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -217,8 +916,33 @@
     <string>Help</string>
    </property>
   </action>
+  <action name="actionLed">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="MotorTesting.qrc">
+     <normaloff>:/icon/icon/led_connect.png</normaloff>
+     <normalon>:/icon/icon/led_disconnect.png</normalon>:/icon/icon/led_connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Led</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;LED&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>QwtPlot</class>
+   <extends>QFrame</extends>
+   <header>qwt_plot.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="MotorTesting.qrc"/>
+ </resources>
  <connections/>
 </ui>

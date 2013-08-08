@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTimer>
 #include <QSerialPort>
+#include <QEvent>
 
 namespace Ui {
 class panelControlMotor;
@@ -18,15 +19,28 @@ public:
     ~panelControlMotor();
 
     struct panelParameter{
-        bool status;
+        int id;
         int speed;
-        bool dir;
+        int power;
+        int dir;
         bool pause;
+        int timeStart;
+        int timeStop;
+        int timeRemaining;
+        int runTime;
+        QString status;
     };
     panelParameter controlMotor;
+    panelParameter getDataControlMotor();
+    void stopTester();
+    void statTester();
+    bool flagSerialStop;
 
 signals:
     void closePanelControlMotor();
+    void showEvent(QShowEvent *);
+    void closeEvent(QCloseEvent *);
+
 private slots:
     void closeProgram();
     //bt press ------------------------------------------------------------------------------------
@@ -35,10 +49,13 @@ private slots:
     void btPauseClicked(bool status);
     void btDirClicked(bool status);
     void VSpeedChange(int speed);
+    void VPowerChange(int Power);
     //timeOut -------------------------------------------------------------------------------------
     void timeProcessOut();
     void timeMotorOut();
     void timeDisplayMotorOut();
+    void loadForm();
+    void closeForm();
 
 private:
     Ui::panelControlMotor *ui;
@@ -48,6 +65,8 @@ private:
 
     int timeRemainingMotor;
     int timeMotorSetOld;
+    int dirOld;
+    int cnt;
 };
 
 #endif // PANELCONTROLMOTOR_H

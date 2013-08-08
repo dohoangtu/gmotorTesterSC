@@ -329,7 +329,7 @@ background-color: rgb(0, 0, 0);</string>
         <enum>QLCDNumber::Flat</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="lbSpeed">
+      <widget class="QLabel" name="lbVSpeed">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -423,9 +423,9 @@ background-color: rgb(0, 0, 0);</string>
        <string notr="true"/>
       </property>
       <property name="icon">
-       <iconset>
-        <normaloff>../../Gimbal_V1.0/icon/Power-Button_on.png</normaloff>
-        <normalon>../../Gimbal_V1.0/icon/Power-Button_off.png</normalon>../../Gimbal_V1.0/icon/Power-Button_on.png</iconset>
+       <iconset resource="MotorTesting.qrc">
+        <normaloff>:/icon/icon/Power-Button_on.png</normaloff>
+        <normalon>:/icon/icon/Power-Button_off.png</normalon>:/icon/icon/Power-Button_on.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -486,9 +486,9 @@ background-color: rgb(0, 0, 0);</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../Gimbal_V1.0/icon/Media-Play_play.png</normaloff>
-         <normalon>../../Gimbal_V1.0/icon/Stop_squar.png</normalon>../../Gimbal_V1.0/icon/Media-Play_play.png</iconset>
+        <iconset resource="MotorTesting.qrc">
+         <normaloff>:/icon/icon/Media-Play_play.png</normaloff>
+         <normalon>:/icon/icon/Stop_squar.png</normalon>:/icon/icon/Media-Play_play.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -513,9 +513,9 @@ background-color: rgb(0, 0, 0);</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../Gimbal_V1.0/icon/Media-Pause_off.png</normaloff>
-         <normalon>../../Gimbal_V1.0/icon/Media-Pause_on.png</normalon>../../Gimbal_V1.0/icon/Media-Pause_off.png</iconset>
+        <iconset resource="MotorTesting.qrc">
+         <normaloff>:/icon/icon/Media-Pause_off.png</normaloff>
+         <normalon>:/icon/icon/Media-Pause_on.png</normalon>:/icon/icon/Media-Pause_off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -540,9 +540,9 @@ background-color: rgb(0, 0, 0);</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../Gimbal_V1.0/icon/Reload_CW.png</normaloff>
-         <normalon>../../Gimbal_V1.0/icon/Reload_CCW.png</normalon>../../Gimbal_V1.0/icon/Reload_CW.png</iconset>
+        <iconset resource="MotorTesting.qrc">
+         <normaloff>:/icon/icon/Reload_CW.png</normaloff>
+         <normalon>:/icon/icon/Reload_CCW.png</normalon>:/icon/icon/Reload_CW.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -563,7 +563,7 @@ background-color: rgb(0, 0, 0);</string>
          <x>0</x>
          <y>30</y>
          <width>321</width>
-         <height>221</height>
+         <height>251</height>
         </rect>
        </property>
        <property name="minimum">
@@ -585,10 +585,10 @@ background-color: rgb(0, 0, 0);</string>
       <widget class="QSlider" name="ValueSpeed">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>270</y>
-         <width>311</width>
-         <height>31</height>
+         <x>290</x>
+         <y>50</y>
+         <width>31</width>
+         <height>231</height>
         </rect>
        </property>
        <property name="minimum">
@@ -604,7 +604,7 @@ background-color: rgb(0, 0, 0);</string>
         <number>11</number>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
        </property>
        <property name="invertedAppearance">
         <bool>true</bool>
@@ -616,6 +616,54 @@ background-color: rgb(0, 0, 0);</string>
         <number>3</number>
        </property>
       </widget>
+      <widget class="QSlider" name="valuePower">
+       <property name="geometry">
+        <rect>
+         <x>-1</x>
+         <y>50</y>
+         <width>31</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <property name="pageStep">
+        <number>5</number>
+       </property>
+       <property name="value">
+        <number>99</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="tickPosition">
+        <enum>QSlider::TicksAbove</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbPower">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbSpeed">
+       <property name="geometry">
+        <rect>
+         <x>245</x>
+         <y>20</y>
+         <width>71</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
      </widget>
      <zorder>gbControl</zorder>
      <zorder>gbDisplay</zorder>
@@ -624,6 +672,8 @@ background-color: rgb(0, 0, 0);</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="MotorTesting.qrc"/>
+ </resources>
  <connections/>
 </ui>

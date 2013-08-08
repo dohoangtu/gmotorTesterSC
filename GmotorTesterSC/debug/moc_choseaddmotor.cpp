@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_choseAddMotor_t {
-    QByteArrayData data[9];
-    char stringdata[131];
+    QByteArrayData data[12];
+    char stringdata[162];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,14 +35,18 @@ QT_MOC_LITERAL(2, 36, 0),
 QT_MOC_LITERAL(3, 37, 25),
 QT_MOC_LITERAL(4, 63, 10),
 QT_MOC_LITERAL(5, 74, 12),
-QT_MOC_LITERAL(6, 87, 15),
-QT_MOC_LITERAL(7, 103, 16),
-QT_MOC_LITERAL(8, 120, 9)
+QT_MOC_LITERAL(6, 87, 9),
+QT_MOC_LITERAL(7, 97, 11),
+QT_MOC_LITERAL(8, 109, 15),
+QT_MOC_LITERAL(9, 125, 16),
+QT_MOC_LITERAL(10, 142, 9),
+QT_MOC_LITERAL(11, 152, 8)
     },
     "choseAddMotor\0buttonOK_ChoseClicked\0"
     "\0buttonCANCEL_ChoseClicked\0closeEvent\0"
-    "QCloseEvent*\0on_btOK_clicked\0"
-    "btCancel_Clicked\0closeForm\0"
+    "QCloseEvent*\0showEvent\0QShowEvent*\0"
+    "on_btOK_clicked\0btCancel_Clicked\0"
+    "closeForm\0loadForm\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -52,29 +56,33 @@ static const uint qt_meta_data_choseAddMotor[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       3,       // signalCount
+       4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   44,    2, 0x05,
-       3,    0,   45,    2, 0x05,
-       4,    1,   46,    2, 0x05,
+       1,    0,   54,    2, 0x05,
+       3,    0,   55,    2, 0x05,
+       4,    1,   56,    2, 0x05,
+       6,    1,   59,    2, 0x05,
 
  // slots: name, argc, parameters, tag, flags
-       6,    0,   49,    2, 0x08,
-       7,    0,   50,    2, 0x08,
-       8,    0,   51,    2, 0x08,
+       8,    0,   62,    2, 0x08,
+       9,    0,   63,    2, 0x08,
+      10,    0,   64,    2, 0x08,
+      11,    0,   65,    2, 0x08,
 
  // signals: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 5,    2,
+    QMetaType::Void, 0x80000000 | 7,    2,
 
  // slots: parameters
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -90,9 +98,11 @@ void choseAddMotor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 0: _t->buttonOK_ChoseClicked(); break;
         case 1: _t->buttonCANCEL_ChoseClicked(); break;
         case 2: _t->closeEvent((*reinterpret_cast< QCloseEvent*(*)>(_a[1]))); break;
-        case 3: _t->on_btOK_clicked(); break;
-        case 4: _t->btCancel_Clicked(); break;
-        case 5: _t->closeForm(); break;
+        case 3: _t->showEvent((*reinterpret_cast< QShowEvent*(*)>(_a[1]))); break;
+        case 4: _t->on_btOK_clicked(); break;
+        case 5: _t->btCancel_Clicked(); break;
+        case 6: _t->closeForm(); break;
+        case 7: _t->loadForm(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -114,6 +124,12 @@ void choseAddMotor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
             typedef void (choseAddMotor::*_t)(QCloseEvent * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&choseAddMotor::closeEvent)) {
                 *result = 2;
+            }
+        }
+        {
+            typedef void (choseAddMotor::*_t)(QShowEvent * );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&choseAddMotor::showEvent)) {
+                *result = 3;
             }
         }
     }
@@ -144,13 +160,13 @@ int choseAddMotor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }
@@ -172,5 +188,12 @@ void choseAddMotor::closeEvent(QCloseEvent * _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
+}
+
+// SIGNAL 3
+void choseAddMotor::showEvent(QShowEvent * _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 QT_END_MOC_NAMESPACE

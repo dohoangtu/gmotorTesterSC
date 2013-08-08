@@ -41,7 +41,7 @@ typedef struct __mavlink_test_motor_t
  * @param temperature nhiet do dong co
  * @return length of the message in bytes (excluding serial stream start sign)
  */
-static inline uint16_t mavlink_msg_test_motor_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
+static __inline uint16_t mavlink_msg_test_motor_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
 						       uint8_t power, uint8_t status, uint8_t dir, int16_t speed, int16_t temperature)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
@@ -81,7 +81,7 @@ static inline uint16_t mavlink_msg_test_motor_pack(uint8_t system_id, uint8_t co
  * @param temperature nhiet do dong co
  * @return length of the message in bytes (excluding serial stream start sign)
  */
-static inline uint16_t mavlink_msg_test_motor_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
+static __inline uint16_t mavlink_msg_test_motor_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
 							   mavlink_message_t* msg,
 						           uint8_t power,uint8_t status,uint8_t dir,int16_t speed,int16_t temperature)
 {
@@ -117,7 +117,7 @@ static inline uint16_t mavlink_msg_test_motor_pack_chan(uint8_t system_id, uint8
  * @param msg The MAVLink message to compress the data into
  * @param test_motor C-struct to read the message contents from
  */
-static inline uint16_t mavlink_msg_test_motor_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_test_motor_t* test_motor)
+static __inline uint16_t mavlink_msg_test_motor_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_test_motor_t* test_motor)
 {
 	return mavlink_msg_test_motor_pack(system_id, component_id, msg, test_motor->power, test_motor->status, test_motor->dir, test_motor->speed, test_motor->temperature);
 }
@@ -134,7 +134,7 @@ static inline uint16_t mavlink_msg_test_motor_encode(uint8_t system_id, uint8_t 
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_test_motor_send(mavlink_channel_t chan, uint8_t power, uint8_t status, uint8_t dir, int16_t speed, int16_t temperature)
+static __inline void mavlink_msg_test_motor_send(mavlink_channel_t chan, uint8_t power, uint8_t status, uint8_t dir, int16_t speed, int16_t temperature)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
 	char buf[7];
@@ -167,7 +167,7 @@ static inline void mavlink_msg_test_motor_send(mavlink_channel_t chan, uint8_t p
  *
  * @return nguon cho dong co
  */
-static inline uint8_t mavlink_msg_test_motor_get_power(const mavlink_message_t* msg)
+static __inline uint8_t mavlink_msg_test_motor_get_power(const mavlink_message_t* msg)
 {
 	return _MAV_RETURN_uint8_t(msg,  4);
 }
@@ -177,7 +177,7 @@ static inline uint8_t mavlink_msg_test_motor_get_power(const mavlink_message_t* 
  *
  * @return trang thai hoat dong
  */
-static inline uint8_t mavlink_msg_test_motor_get_status(const mavlink_message_t* msg)
+static __inline uint8_t mavlink_msg_test_motor_get_status(const mavlink_message_t* msg)
 {
 	return _MAV_RETURN_uint8_t(msg,  5);
 }
@@ -187,7 +187,7 @@ static inline uint8_t mavlink_msg_test_motor_get_status(const mavlink_message_t*
  *
  * @return chieu quay dong co
  */
-static inline uint8_t mavlink_msg_test_motor_get_dir(const mavlink_message_t* msg)
+static __inline uint8_t mavlink_msg_test_motor_get_dir(const mavlink_message_t* msg)
 {
 	return _MAV_RETURN_uint8_t(msg,  6);
 }
@@ -197,7 +197,7 @@ static inline uint8_t mavlink_msg_test_motor_get_dir(const mavlink_message_t* ms
  *
  * @return toc do dong co
  */
-static inline int16_t mavlink_msg_test_motor_get_speed(const mavlink_message_t* msg)
+static __inline int16_t mavlink_msg_test_motor_get_speed(const mavlink_message_t* msg)
 {
 	return _MAV_RETURN_int16_t(msg,  0);
 }
@@ -207,7 +207,7 @@ static inline int16_t mavlink_msg_test_motor_get_speed(const mavlink_message_t* 
  *
  * @return nhiet do dong co
  */
-static inline int16_t mavlink_msg_test_motor_get_temperature(const mavlink_message_t* msg)
+static __inline int16_t mavlink_msg_test_motor_get_temperature(const mavlink_message_t* msg)
 {
 	return _MAV_RETURN_int16_t(msg,  2);
 }
@@ -218,7 +218,7 @@ static inline int16_t mavlink_msg_test_motor_get_temperature(const mavlink_messa
  * @param msg The message to decode
  * @param test_motor C-struct to decode the message contents into
  */
-static inline void mavlink_msg_test_motor_decode(const mavlink_message_t* msg, mavlink_test_motor_t* test_motor)
+static __inline void mavlink_msg_test_motor_decode(const mavlink_message_t* msg, mavlink_test_motor_t* test_motor)
 {
 #if MAVLINK_NEED_BYTE_SWAP
 	test_motor->speed = mavlink_msg_test_motor_get_speed(msg);

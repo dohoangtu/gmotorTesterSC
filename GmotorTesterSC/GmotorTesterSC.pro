@@ -4,22 +4,20 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui serialport
 
-#greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += xml
 
-greaterThan(QT_MAJOR_VERSION, 4) {
-    QT       += widgets serialport
-} else {
-    include($$QTSERIALPORT_PROJECT_ROOT/src/serialport/qt4support/serialport.prf)
-}
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = GmotorTesterSC
 TEMPLATE = app
 
+#for qwt using
+CONFIG += qwt
 
 SOURCES += main.cpp\
-        gmotortestersc.cpp \
+    gmotortestersc.cpp \
     panelcontrolmotor.cpp \
     choseaddmotor.cpp \
     settingserial.cpp \
@@ -37,3 +35,7 @@ FORMS    += gmotortestersc.ui \
     choseaddmotor.ui \
     settingserial.ui \
     messagebox.ui
+
+RESOURCES += \
+    MotorTesting.qrc
+
