@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>icon/AddNew.png</file>
+        <file>icon/Armor.png</file>
+        <file>icon/Connect.png</file>
+        <file>icon/Delete.png</file>
+        <file>icon/Disconnect.png</file>
+        <file>icon/Exit.png</file>
+        <file>icon/led_connect.png</file>
+        <file>icon/led_disconnect.png</file>
+        <file>icon/Media-Pause_off.png</file>
+        <file>icon/Media-Pause_on.png</file>
+        <file>icon/Media-Play_play.png</file>
+        <file>icon/Motorolo.png</file>
+        <file>icon/Open.png</file>
+        <file>icon/Power-Button_off.png</file>
+        <file>icon/Power-Button_on.png</file>
+        <file>icon/Reload_CCW.png</file>
+        <file>icon/Reload_CW.png</file>
+        <file>icon/Road-Backward.png</file>
+        <file>icon/Road-Foword.png</file>
+        <file>icon/Settings.png</file>
+        <file>icon/Stop_squar.png</file>
+        <file>icon/Visualpharm-Must-Have-Play.ico</file>
+        <file>icon/Warning.png</file>
+    </qresource>
+    <qresource prefix="/picture"/>
+</RCC>
