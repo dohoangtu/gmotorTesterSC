@@ -50,6 +50,7 @@ GmotorTesterSC::GmotorTesterSC(QWidget *parent) :
     connect(ui->actionSetting,SIGNAL(triggered()),this,SLOT(actionSetting()));
     connect(ui->actionE_it,SIGNAL(triggered()),this,SLOT(actionExit()));
     connect(ui->actionConnect,SIGNAL(triggered(bool)),this,SLOT(actionConnect(bool)));
+    connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(actionOpen()));
     //signal tab phu
     connect(&choseMotor,SIGNAL(buttonOK_ChoseClicked()),this,SLOT(addTabNew()));
     connect(settingSP,SIGNAL(closeSettingForm()),this,SLOT(EnableMainForm()));
@@ -77,9 +78,6 @@ GmotorTesterSC::~GmotorTesterSC()
 // function acction-------------------------------------------------------------------------------
 void GmotorTesterSC::actionDelete()
 {
-    QDomDocument profile;
-
-    updateXMLfile(profile, "tu.xml");
     deleteTab(ui->tabControlMotor->currentIndex());
 }
 
@@ -214,12 +212,18 @@ void GmotorTesterSC::actionConnect(bool status)
 END:;
 }
 
+void GmotorTesterSC::actionOpen()
+{
+    importXMLfile("profiles/tu.xml");
+}
+
 //serial port write & read -----------------------------------------------------------------------
 void GmotorTesterSC::writeSerial()
 {
 }
 
 int cntwrite;
+int cntUpdateXml;
 void GmotorTesterSC::writeMavlink()
 {
     uint16_t len;
@@ -321,6 +325,13 @@ void GmotorTesterSC::writeMavlink()
         if(ui->checkBoxM10->isChecked() == true) temperature_9->setVisible(true);
         else                                     temperature_9->setVisible(false);
 
+        cntUpdateXml++;
+        if(cntUpdateXml > 4){
+            cntUpdateXml = 0;
+            QDomDocument profile;
+            updateXMLfile(profile, "tu.xml");
+        }
+
     }
 }
 
@@ -342,7 +353,7 @@ void GmotorTesterSC::readMavlink(QByteArray buff)
     for(int position = 0; position < buff.size(); position++)
     {
         byte = buff[position];
-        unsigned int decodeState = mavlink_parse_char(MAVLINK_COMM_0,byte, &message, &status);
+        mavlink_parse_char(MAVLINK_COMM_0,byte, &message, &status);
 
         switch (message.msgid)
         {
@@ -355,6 +366,7 @@ void GmotorTesterSC::readMavlink(QByteArray buff)
                 pulse = 1;
             else
                 pulse = 0;
+
             emit heartBeatPulse(pulse);
             break;
 //------------------------------------------------------------------------------------------------
@@ -411,7 +423,6 @@ void GmotorTesterSC::closeProgram()
     {
         qDebug()<<"close Program";
         mavlink_msg_test_motor_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,0,100,0,0,0);
-
         len = mavlink_msg_to_send_buffer(buf, &msg);
         serial->write((const char*)buf, len);
     }
@@ -512,7 +523,7 @@ void GmotorTesterSC::deleteTab(int index){
     if(index > -1){
         int ret = QMessageBox::critical(this,"Thông Báo!",tr("bạn có muốn tắt tab số %1\n Có: OK ---- Không: Cancle").arg(ui->tabControlMotor->currentIndex() + 1),QMessageBox::Ok,QMessageBox::Cancel);
         if(ret == QMessageBox::Ok)
-        {            
+        {
             uint16_t len;
             mavlink_message_t msg;
             uint8_t buf[MAVLINK_MAX_PACKET_LEN];
@@ -600,15 +611,13 @@ void GmotorTesterSC::clearRowTableMotor(int row){
     ui->tableMotor->insertRow(9);
 }
 
-
-//END PROGAMER -----------------------------------------------------------------------------------
-
 int cntUpdateChart[11];
 void GmotorTesterSC::chartUpdate()
 {
     if(flagUpdateChart > 1){
         flagUpdateChart = 0;
         cntUpdateChart[arrayDataMotor.at(rowMotorCurrent) - 1]++;
+
         if(arrayDataMotor.at(rowMotorCurrent)-1 == 0){
             temperature_point_0 += QPointF(cntUpdateChart[0],arrayTemp[0]);
             temperature_0->setSamples(temperature_point_0);
@@ -766,21 +775,22 @@ void GmotorTesterSC::updateXMLfile(QDomDocument document, QString xmlfile)
     document.appendChild(groups);
 
     /* motors params */
+    QDomElement motors = document.createElement("ParameterMotor");
+    groups.appendChild(motors);
+    QDomElement numMotorss = document.createElement("numMotors");
+    numMotorss.setAttribute("num", arrayDataMotor.size());
+    motors.appendChild(numMotorss);
     for(int i = 0 ; i < arrayDataMotor.size() ; i++){
         if(arrayDataMotor.at(i) != 0){
-            QDomElement motors = document.createElement("Motor");
-            groups.appendChild(motors);
-            QDomElement Status = document.createElement("status");
+            panelControlMotor::panelParameter P = panelMotor[arrayDataMotor.at(i) - 1].getDataControlMotor();
+            QDomElement Status = document.createElement(tr("Motor%1").arg(arrayDataMotor.at(i)));
             {
-                /*pitch motor elements*/
-                Status.setAttribute("status",       2);
-                Status.setAttribute("startTime",    2);
-                Status.setAttribute("stopTime",     3);
-                Status.setAttribute("remainingTime",4);
-                Status.setAttribute("runTime",      5);
-                Status.setAttribute("temperature",  6);
+                Status.setAttribute("status",       P.status);
+                Status.setAttribute("startTime",    P.timeStart);
+                Status.setAttribute("stopTime",     P.timeStop);
+                Status.setAttribute("remainingTime",P.timeRemaining);
+                Status.setAttribute("runTime",      P.runTime);
                 motors.appendChild(Status);
-                /*end of pitch motor elements*/
             }
         }
     }
@@ -801,3 +811,52 @@ void GmotorTesterSC::updateXMLfile(QDomDocument document, QString xmlfile)
     }
 }
 
+void GmotorTesterSC::importXMLfile(QString importfile)
+{
+    QDomDocument importProfile;
+
+    //Load the file
+    QFile file(importfile);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Failed to open the file";
+    }
+    else
+    {
+        if(!importProfile.setContent(&file))
+        {
+            qDebug() << "Failed to load document";
+        }
+        file.close();
+    }
+
+    //Get the root element
+    QDomElement root = importProfile.firstChildElement();
+
+    /* Get the elements */
+    //motor frequency
+    // pitch motor
+//    ui->txtTest->setText(tr("temperature: %1").arg(ListElements(root, "Motor1", "temperature")));
+}
+
+int GmotorTesterSC::ListElements(QDomElement root, QString tagname, QString attribute)
+{
+    QDomNodeList items = root.elementsByTagName(tagname);
+
+    qDebug() << "Total items = " << items.count();
+
+    for(int i=0; i< items.count(); i++)
+    {
+        QDomNode itemnode = items.at(i);
+
+        //convert to element
+        if(itemnode.isElement())
+        {
+            QDomElement itemele = itemnode.toElement();
+            qDebug() << itemele.attribute(attribute).toInt();
+            return itemele.attribute(attribute).toInt();
+        }
+    }
+    return 0;
+}
+//END PROGAMER -----------------------------------------------------------------------------------

@@ -50,6 +50,7 @@ private slots:
     void actionSetting();
     void actionExit();
     void actionConnect(bool status);
+    void actionOpen();
     //serial port
     void writeSerial();
     void writeMavlink();
@@ -110,6 +111,8 @@ private:
     void chartSetting();
 
     void updateXMLfile(QDomDocument document, QString xmlfile);
+    void importXMLfile(QString importfile);
+    int ListElements(QDomElement root, QString tagname, QString attribute);
 };
 
 #endif // GMOTORTESTERSC_H

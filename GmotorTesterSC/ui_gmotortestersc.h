@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -25,7 +24,6 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "qwt_plot.h"
 
@@ -46,16 +44,11 @@ public:
     QAction *actionHelp;
     QAction *actionLed;
     QWidget *centralWidget;
-    QGridLayout *gridLayout_2;
     QTabWidget *tabControlMotor;
-    QWidget *widget;
-    QGridLayout *gridLayout;
-    QVBoxLayout *verticalLayout;
-    QTableWidget *tableMotor;
     QwtPlot *plotTemperature;
-    QWidget *widget_5;
+    QTableWidget *tableMotor;
+    QWidget *widget;
     QHBoxLayout *horizontalLayout;
-    QWidget *widget_3;
     QWidget *widget_2;
     QHBoxLayout *horizontalLayout_2;
     QWidget *widget_6;
@@ -88,7 +81,6 @@ public:
     QWidget *widget_16;
     QCheckBox *checkBoxM10;
     QLabel *labelM10;
-    QWidget *widget_4;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuView;
@@ -154,27 +146,18 @@ public:
         actionLed->setIcon(icon7);
         centralWidget = new QWidget(GmotorTesterSC);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        gridLayout_2 = new QGridLayout(centralWidget);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         tabControlMotor = new QTabWidget(centralWidget);
         tabControlMotor->setObjectName(QStringLiteral("tabControlMotor"));
-        tabControlMotor->setMinimumSize(QSize(360, 650));
+        tabControlMotor->setGeometry(QRect(9, 9, 360, 500));
+        tabControlMotor->setMinimumSize(QSize(360, 500));
         tabControlMotor->setMaximumSize(QSize(360, 600));
-
-        gridLayout_2->addWidget(tabControlMotor, 0, 0, 1, 1);
-
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        gridLayout = new QGridLayout(widget);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        tableMotor = new QTableWidget(widget);
+        plotTemperature = new QwtPlot(centralWidget);
+        plotTemperature->setObjectName(QStringLiteral("plotTemperature"));
+        plotTemperature->setGeometry(QRect(380, 10, 871, 491));
+        plotTemperature->setMaximumSize(QSize(16777215, 16777214));
+        plotTemperature->setAutoFillBackground(false);
+        plotTemperature->setAutoReplot(false);
+        tableMotor = new QTableWidget(centralWidget);
         if (tableMotor->columnCount() < 7)
             tableMotor->setColumnCount(7);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
@@ -224,6 +207,7 @@ public:
         __qtablewidgetitem16->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter|Qt::AlignCenter);
         tableMotor->setItem(9, 6, __qtablewidgetitem16);
         tableMotor->setObjectName(QStringLiteral("tableMotor"));
+        tableMotor->setGeometry(QRect(320, 550, 941, 300));
         tableMotor->setMinimumSize(QSize(0, 300));
         tableMotor->setMaximumSize(QSize(16777215, 300));
         tableMotor->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -234,38 +218,15 @@ public:
         tableMotor->horizontalHeader()->setStretchLastSection(true);
         tableMotor->verticalHeader()->setDefaultSectionSize(20);
         tableMotor->verticalHeader()->setStretchLastSection(false);
-
-        verticalLayout->addWidget(tableMotor);
-
-        plotTemperature = new QwtPlot(widget);
-        plotTemperature->setObjectName(QStringLiteral("plotTemperature"));
-        plotTemperature->setMaximumSize(QSize(16777215, 16777214));
-        plotTemperature->setAutoFillBackground(false);
-        plotTemperature->setAutoReplot(false);
-
-        verticalLayout->addWidget(plotTemperature);
-
-        widget_5 = new QWidget(widget);
-        widget_5->setObjectName(QStringLiteral("widget_5"));
-
-        verticalLayout->addWidget(widget_5);
-
-
-        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
-
-
-        gridLayout_2->addWidget(widget, 0, 1, 1, 1);
-
-        horizontalLayout = new QHBoxLayout();
+        widget = new QWidget(centralWidget);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(90, 630, 1186, 42));
+        horizontalLayout = new QHBoxLayout(widget);
         horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        widget_3 = new QWidget(centralWidget);
-        widget_3->setObjectName(QStringLiteral("widget_3"));
-        widget_3->setMinimumSize(QSize(361, 40));
-
-        horizontalLayout->addWidget(widget_3);
-
-        widget_2 = new QWidget(centralWidget);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        widget_2 = new QWidget(widget);
         widget_2->setObjectName(QStringLiteral("widget_2"));
         widget_2->setMinimumSize(QSize(661, 40));
         horizontalLayout_2 = new QHBoxLayout(widget_2);
@@ -425,16 +386,11 @@ public:
 
         horizontalLayout->addWidget(widget_2);
 
-        widget_4 = new QWidget(centralWidget);
-        widget_4->setObjectName(QStringLiteral("widget_4"));
-        widget_4->setMinimumSize(QSize(200, 35));
-
-        horizontalLayout->addWidget(widget_4);
-
-
-        gridLayout_2->addLayout(horizontalLayout, 1, 0, 1, 2);
-
         GmotorTesterSC->setCentralWidget(centralWidget);
+        tabControlMotor->raise();
+        tableMotor->raise();
+        plotTemperature->raise();
+        tableMotor->raise();
         menuBar = new QMenuBar(GmotorTesterSC);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 1259, 21));
