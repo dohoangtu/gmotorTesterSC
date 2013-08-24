@@ -185,34 +185,6 @@
       <property name="flat">
        <bool>true</bool>
       </property>
-      <widget class="QDial" name="Motor">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>251</width>
-         <height>201</height>
-        </rect>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
-       </property>
-       <property name="invertedControls">
-        <bool>false</bool>
-       </property>
-       <property name="wrapping">
-        <bool>true</bool>
-       </property>
-       <property name="notchesVisible">
-        <bool>true</bool>
-       </property>
-      </widget>
       <widget class="QSlider" name="ValueSpeed">
        <property name="geometry">
         <rect>
@@ -389,16 +361,25 @@
         <bool>true</bool>
        </property>
       </widget>
-      <zorder>Motor</zorder>
-      <zorder>ValueSpeed</zorder>
-      <zorder>valuePower</zorder>
-      <zorder>lbPower</zorder>
-      <zorder>lbSpeed</zorder>
-      <zorder>pbTimeProcess</zorder>
-      <zorder>btRun</zorder>
-      <zorder>btPause</zorder>
-      <zorder>btDir</zorder>
-      <zorder>fMotor</zorder>
+      <widget class="QwtDial" name="Dial">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>59</y>
+         <width>251</width>
+         <height>191</height>
+        </rect>
+       </property>
+       <property name="upperBound">
+        <double>360.000000000000000</double>
+       </property>
+       <property name="scaleMaxMinor">
+        <number>10</number>
+       </property>
+       <property name="lineWidth">
+        <number>4</number>
+       </property>
+      </widget>
      </widget>
      <zorder>gbControl</zorder>
      <zorder>btPower</zorder>
@@ -673,22 +654,9 @@ background-color: rgb(0, 0, 0);</string>
         </layout>
        </item>
       </layout>
-      <zorder>lcdTemperature</zorder>
-      <zorder>lbTemperature</zorder>
-      <zorder>lcdSpeed</zorder>
-      <zorder>lbVSpeed</zorder>
-      <zorder>label_3</zorder>
-      <zorder>remainingSecond</zorder>
-      <zorder>label</zorder>
-      <zorder>remainingMinute</zorder>
-      <zorder>label_2</zorder>
-      <zorder>remainingHour</zorder>
       <zorder>lbRemaingTime</zorder>
       <zorder>timeSet</zorder>
       <zorder>lbTimeSet</zorder>
-      <zorder>lcdTemperature</zorder>
-      <zorder>lcdTemperature</zorder>
-      <zorder>lbTemperature</zorder>
      </widget>
      <widget class="QwtDial" name="displaySpeed">
       <property name="geometry">
@@ -743,7 +711,6 @@ background-color: rgb(0, 0, 0);</string>
   <zorder>fMotor</zorder>
   <zorder>frame</zorder>
   <zorder>frame_2</zorder>
-  <zorder>chartTemp</zorder>
  </widget>
  <customwidgets>
   <customwidget>

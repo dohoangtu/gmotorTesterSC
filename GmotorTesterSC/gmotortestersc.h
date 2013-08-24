@@ -62,6 +62,18 @@ private slots:
     //table
     void pressEnterCell(int row, int column);
     void DoubleClickCell(int row, int column);
+    //
+    void writeMavlinkPanel(int power, char id, char dir, int speed);
+    void writePanel0(int power, char dir, int speed);
+    void writePanel1(int power, char dir, int speed);
+    void writePanel2(int power, char dir, int speed);
+    void writePanel3(int power, char dir, int speed);
+    void writePanel4(int power, char dir, int speed);
+    void writePanel5(int power, char dir, int speed);
+    void writePanel6(int power, char dir, int speed);
+    void writePanel7(int power, char dir, int speed);
+    void writePanel8(int power, char dir, int speed);
+    void writePanel9(int power, char dir, int speed);
 
 private:
     Ui::GmotorTesterSC *ui;

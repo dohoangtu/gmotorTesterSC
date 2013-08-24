@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_GmotorTesterSC_t {
-    QByteArrayData data[31];
-    char stringdata[340];
+    QByteArrayData data[46];
+    char stringdata[497];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -59,7 +59,22 @@ QT_MOC_LITERAL(26, 284, 12),
 QT_MOC_LITERAL(27, 297, 14),
 QT_MOC_LITERAL(28, 312, 3),
 QT_MOC_LITERAL(29, 316, 6),
-QT_MOC_LITERAL(30, 323, 15)
+QT_MOC_LITERAL(30, 323, 15),
+QT_MOC_LITERAL(31, 339, 17),
+QT_MOC_LITERAL(32, 357, 5),
+QT_MOC_LITERAL(33, 363, 2),
+QT_MOC_LITERAL(34, 366, 3),
+QT_MOC_LITERAL(35, 370, 5),
+QT_MOC_LITERAL(36, 376, 11),
+QT_MOC_LITERAL(37, 388, 11),
+QT_MOC_LITERAL(38, 400, 11),
+QT_MOC_LITERAL(39, 412, 11),
+QT_MOC_LITERAL(40, 424, 11),
+QT_MOC_LITERAL(41, 436, 11),
+QT_MOC_LITERAL(42, 448, 11),
+QT_MOC_LITERAL(43, 460, 11),
+QT_MOC_LITERAL(44, 472, 11),
+QT_MOC_LITERAL(45, 484, 11)
     },
     "GmotorTesterSC\0messageReceived\0\0message\0"
     "heartBeatPulse\0pulse\0closeEvent\0"
@@ -70,7 +85,11 @@ QT_MOC_LITERAL(30, 323, 15)
     "writeMavlink\0readSerial\0readMavlink\0"
     "buff\0heartbeatReceive\0satatus\0"
     "closeProgram\0pressEnterCell\0row\0column\0"
-    "DoubleClickCell\0"
+    "DoubleClickCell\0writeMavlinkPanel\0"
+    "power\0id\0dir\0speed\0writePanel0\0"
+    "writePanel1\0writePanel2\0writePanel3\0"
+    "writePanel4\0writePanel5\0writePanel6\0"
+    "writePanel7\0writePanel8\0writePanel9\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -80,7 +99,7 @@ static const uint qt_meta_data_GmotorTesterSC[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      31,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -88,28 +107,39 @@ static const uint qt_meta_data_GmotorTesterSC[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,  114,    2, 0x05,
-       4,    1,  117,    2, 0x05,
-       6,    1,  120,    2, 0x05,
+       1,    1,  169,    2, 0x05,
+       4,    1,  172,    2, 0x05,
+       6,    1,  175,    2, 0x05,
 
  // slots: name, argc, parameters, tag, flags
-       8,    0,  123,    2, 0x08,
-       9,    1,  124,    2, 0x08,
-      11,    0,  127,    2, 0x08,
-      12,    0,  128,    2, 0x08,
-      13,    0,  129,    2, 0x08,
-      14,    0,  130,    2, 0x08,
-      15,    0,  131,    2, 0x08,
-      16,    1,  132,    2, 0x08,
-      18,    0,  135,    2, 0x08,
-      19,    0,  136,    2, 0x08,
-      20,    0,  137,    2, 0x08,
-      21,    0,  138,    2, 0x08,
-      22,    1,  139,    2, 0x08,
-      24,    1,  142,    2, 0x08,
-      26,    0,  145,    2, 0x08,
-      27,    2,  146,    2, 0x08,
-      30,    2,  151,    2, 0x08,
+       8,    0,  178,    2, 0x08,
+       9,    1,  179,    2, 0x08,
+      11,    0,  182,    2, 0x08,
+      12,    0,  183,    2, 0x08,
+      13,    0,  184,    2, 0x08,
+      14,    0,  185,    2, 0x08,
+      15,    0,  186,    2, 0x08,
+      16,    1,  187,    2, 0x08,
+      18,    0,  190,    2, 0x08,
+      19,    0,  191,    2, 0x08,
+      20,    0,  192,    2, 0x08,
+      21,    0,  193,    2, 0x08,
+      22,    1,  194,    2, 0x08,
+      24,    1,  197,    2, 0x08,
+      26,    0,  200,    2, 0x08,
+      27,    2,  201,    2, 0x08,
+      30,    2,  206,    2, 0x08,
+      31,    4,  211,    2, 0x08,
+      36,    3,  220,    2, 0x08,
+      37,    3,  227,    2, 0x08,
+      38,    3,  234,    2, 0x08,
+      39,    3,  241,    2, 0x08,
+      40,    3,  248,    2, 0x08,
+      41,    3,  255,    2, 0x08,
+      42,    3,  262,    2, 0x08,
+      43,    3,  269,    2, 0x08,
+      44,    3,  276,    2, 0x08,
+      45,    3,  283,    2, 0x08,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QByteArray,    3,
@@ -134,6 +164,17 @@ static const uint qt_meta_data_GmotorTesterSC[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,   28,   29,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,   28,   29,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Char, QMetaType::Int,   32,   33,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
+    QMetaType::Void, QMetaType::Int, QMetaType::Char, QMetaType::Int,   32,   34,   35,
 
        0        // eod
 };
@@ -163,6 +204,17 @@ void GmotorTesterSC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 17: _t->closeProgram(); break;
         case 18: _t->pressEnterCell((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 19: _t->DoubleClickCell((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 20: _t->writeMavlinkPanel((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< char(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
+        case 21: _t->writePanel0((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 22: _t->writePanel1((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 23: _t->writePanel2((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 24: _t->writePanel3((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 25: _t->writePanel4((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 26: _t->writePanel5((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 27: _t->writePanel6((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 28: _t->writePanel7((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 29: _t->writePanel8((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 30: _t->writePanel9((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< char(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -214,13 +266,13 @@ int GmotorTesterSC::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 31)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 31;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 31)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 20;
+        _id -= 31;
     }
     return _id;
 }

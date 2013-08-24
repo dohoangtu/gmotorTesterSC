@@ -24,12 +24,13 @@ public:
         int power;
         int dir;
         bool pause;
-        int timeStart;
-        int timeStop;
-        int timeRemaining;
-        int runTime;
+        QString timeStart;
+        QString timeStop;
+        QString timeRemaining;
+        QString runTime;
         QString status;
     };
+
     panelParameter controlMotor;
     panelParameter getDataControlMotor();
     void stopTester();
@@ -37,12 +38,12 @@ public:
     bool flagSerialStop;
 
 signals:
+    void writePannel(int power, char dir, int speed);
     void closePanelControlMotor();
     void showEvent(QShowEvent *);
     void closeEvent(QCloseEvent *);
 
 private slots:
-    void closeProgram();
     //bt press ------------------------------------------------------------------------------------
     void btPowerClicked(bool status);
     void btRunClicked(bool status);

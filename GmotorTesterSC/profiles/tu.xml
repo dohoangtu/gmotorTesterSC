@@ -1,7 +1,6 @@
 <TestMotorGroups>
  <ParameterMotor>
-  <numMotors num="2"/>
-  <Motor1 remainingTime="0" runTime="0" status="Begin Testing" stopTime="0" startTime="0"/>
-  <Motor2 remainingTime="0" runTime="0" status="Begin Testing" stopTime="0" startTime="0"/>
+  <numMotors num="1"/>
+  <Motor1 status="Begin Testing" startTime="0" remainingTime="0" stopTime="0" runTime="0"/>
  </ParameterMotor>
 </TestMotorGroups>

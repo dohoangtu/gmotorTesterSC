@@ -13,10 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -24,8 +21,8 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "qwt_plot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -44,43 +41,9 @@ public:
     QAction *actionHelp;
     QAction *actionLed;
     QWidget *centralWidget;
+    QVBoxLayout *verticalLayout;
     QTabWidget *tabControlMotor;
-    QwtPlot *plotTemperature;
     QTableWidget *tableMotor;
-    QWidget *widget;
-    QHBoxLayout *horizontalLayout;
-    QWidget *widget_2;
-    QHBoxLayout *horizontalLayout_2;
-    QWidget *widget_6;
-    QCheckBox *checkBoxM1;
-    QLabel *labelM1;
-    QWidget *widget_8;
-    QCheckBox *checkBoxM2;
-    QLabel *labelM2;
-    QWidget *widget_9;
-    QCheckBox *checkBoxM3;
-    QLabel *labelM3;
-    QWidget *widget_10;
-    QCheckBox *checkBoxM4;
-    QLabel *labelM4;
-    QWidget *widget_11;
-    QCheckBox *checkBoxM5;
-    QLabel *labelM5;
-    QWidget *widget_12;
-    QCheckBox *checkBoxM6;
-    QLabel *labelM6;
-    QWidget *widget_13;
-    QCheckBox *checkBoxM7;
-    QLabel *labelM7;
-    QWidget *widget_14;
-    QCheckBox *checkBoxM8;
-    QLabel *labelM8;
-    QWidget *widget_15;
-    QCheckBox *checkBoxM9;
-    QLabel *labelM9;
-    QWidget *widget_16;
-    QCheckBox *checkBoxM10;
-    QLabel *labelM10;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuView;
@@ -146,17 +109,17 @@ public:
         actionLed->setIcon(icon7);
         centralWidget = new QWidget(GmotorTesterSC);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        verticalLayout = new QVBoxLayout(centralWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         tabControlMotor = new QTabWidget(centralWidget);
         tabControlMotor->setObjectName(QStringLiteral("tabControlMotor"));
-        tabControlMotor->setGeometry(QRect(9, 9, 360, 500));
-        tabControlMotor->setMinimumSize(QSize(360, 500));
-        tabControlMotor->setMaximumSize(QSize(360, 600));
-        plotTemperature = new QwtPlot(centralWidget);
-        plotTemperature->setObjectName(QStringLiteral("plotTemperature"));
-        plotTemperature->setGeometry(QRect(380, 10, 871, 491));
-        plotTemperature->setMaximumSize(QSize(16777215, 16777214));
-        plotTemperature->setAutoFillBackground(false);
-        plotTemperature->setAutoReplot(false);
+        tabControlMotor->setMinimumSize(QSize(0, 0));
+        tabControlMotor->setMaximumSize(QSize(5000, 500));
+
+        verticalLayout->addWidget(tabControlMotor);
+
         tableMotor = new QTableWidget(centralWidget);
         if (tableMotor->columnCount() < 7)
             tableMotor->setColumnCount(7);
@@ -207,8 +170,7 @@ public:
         __qtablewidgetitem16->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter|Qt::AlignCenter);
         tableMotor->setItem(9, 6, __qtablewidgetitem16);
         tableMotor->setObjectName(QStringLiteral("tableMotor"));
-        tableMotor->setGeometry(QRect(320, 550, 941, 300));
-        tableMotor->setMinimumSize(QSize(0, 300));
+        tableMotor->setMinimumSize(QSize(0, 0));
         tableMotor->setMaximumSize(QSize(16777215, 300));
         tableMotor->setSelectionMode(QAbstractItemView::ExtendedSelection);
         tableMotor->setRowCount(10);
@@ -218,179 +180,12 @@ public:
         tableMotor->horizontalHeader()->setStretchLastSection(true);
         tableMotor->verticalHeader()->setDefaultSectionSize(20);
         tableMotor->verticalHeader()->setStretchLastSection(false);
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(90, 630, 1186, 42));
-        horizontalLayout = new QHBoxLayout(widget);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        widget_2 = new QWidget(widget);
-        widget_2->setObjectName(QStringLiteral("widget_2"));
-        widget_2->setMinimumSize(QSize(661, 40));
-        horizontalLayout_2 = new QHBoxLayout(widget_2);
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        widget_6 = new QWidget(widget_2);
-        widget_6->setObjectName(QStringLiteral("widget_6"));
-        checkBoxM1 = new QCheckBox(widget_6);
-        checkBoxM1->setObjectName(QStringLiteral("checkBoxM1"));
-        checkBoxM1->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM1->setMaximumSize(QSize(35, 17));
-        checkBoxM1->setChecked(true);
-        labelM1 = new QLabel(widget_6);
-        labelM1->setObjectName(QStringLiteral("labelM1"));
-        labelM1->setGeometry(QRect(40, 0, 15, 17));
-        labelM1->setMaximumSize(QSize(15, 17));
-        labelM1->setStyleSheet(QStringLiteral("background-color: rgb(0, 0, 0);"));
 
-        horizontalLayout_2->addWidget(widget_6);
-
-        widget_8 = new QWidget(widget_2);
-        widget_8->setObjectName(QStringLiteral("widget_8"));
-        checkBoxM2 = new QCheckBox(widget_8);
-        checkBoxM2->setObjectName(QStringLiteral("checkBoxM2"));
-        checkBoxM2->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM2->setMaximumSize(QSize(35, 17));
-        checkBoxM2->setChecked(true);
-        labelM2 = new QLabel(widget_8);
-        labelM2->setObjectName(QStringLiteral("labelM2"));
-        labelM2->setGeometry(QRect(40, 0, 15, 17));
-        labelM2->setMaximumSize(QSize(15, 17));
-        labelM2->setStyleSheet(QStringLiteral("background-color: rgb(0, 0, 255);"));
-
-        horizontalLayout_2->addWidget(widget_8);
-
-        widget_9 = new QWidget(widget_2);
-        widget_9->setObjectName(QStringLiteral("widget_9"));
-        checkBoxM3 = new QCheckBox(widget_9);
-        checkBoxM3->setObjectName(QStringLiteral("checkBoxM3"));
-        checkBoxM3->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM3->setMaximumSize(QSize(35, 17));
-        checkBoxM3->setChecked(true);
-        labelM3 = new QLabel(widget_9);
-        labelM3->setObjectName(QStringLiteral("labelM3"));
-        labelM3->setGeometry(QRect(40, 0, 15, 17));
-        labelM3->setMaximumSize(QSize(15, 17));
-        labelM3->setStyleSheet(QStringLiteral("background-color: rgb(0, 255, 255);"));
-
-        horizontalLayout_2->addWidget(widget_9);
-
-        widget_10 = new QWidget(widget_2);
-        widget_10->setObjectName(QStringLiteral("widget_10"));
-        checkBoxM4 = new QCheckBox(widget_10);
-        checkBoxM4->setObjectName(QStringLiteral("checkBoxM4"));
-        checkBoxM4->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM4->setMaximumSize(QSize(35, 17));
-        checkBoxM4->setChecked(true);
-        labelM4 = new QLabel(widget_10);
-        labelM4->setObjectName(QStringLiteral("labelM4"));
-        labelM4->setGeometry(QRect(40, 0, 15, 17));
-        labelM4->setMaximumSize(QSize(15, 17));
-        labelM4->setStyleSheet(QStringLiteral("background-color: rgb(206, 206, 206);"));
-
-        horizontalLayout_2->addWidget(widget_10);
-
-        widget_11 = new QWidget(widget_2);
-        widget_11->setObjectName(QStringLiteral("widget_11"));
-        checkBoxM5 = new QCheckBox(widget_11);
-        checkBoxM5->setObjectName(QStringLiteral("checkBoxM5"));
-        checkBoxM5->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM5->setMaximumSize(QSize(35, 17));
-        checkBoxM5->setChecked(true);
-        labelM5 = new QLabel(widget_11);
-        labelM5->setObjectName(QStringLiteral("labelM5"));
-        labelM5->setGeometry(QRect(40, 0, 15, 17));
-        labelM5->setMaximumSize(QSize(15, 17));
-        labelM5->setStyleSheet(QStringLiteral("background-color: rgb(85, 255, 127);"));
-
-        horizontalLayout_2->addWidget(widget_11);
-
-        widget_12 = new QWidget(widget_2);
-        widget_12->setObjectName(QStringLiteral("widget_12"));
-        checkBoxM6 = new QCheckBox(widget_12);
-        checkBoxM6->setObjectName(QStringLiteral("checkBoxM6"));
-        checkBoxM6->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM6->setMaximumSize(QSize(35, 17));
-        checkBoxM6->setChecked(true);
-        labelM6 = new QLabel(widget_12);
-        labelM6->setObjectName(QStringLiteral("labelM6"));
-        labelM6->setGeometry(QRect(40, 0, 15, 17));
-        labelM6->setMaximumSize(QSize(15, 17));
-        labelM6->setStyleSheet(QStringLiteral("background-color: rgb(255, 0, 255);"));
-
-        horizontalLayout_2->addWidget(widget_12);
-
-        widget_13 = new QWidget(widget_2);
-        widget_13->setObjectName(QStringLiteral("widget_13"));
-        checkBoxM7 = new QCheckBox(widget_13);
-        checkBoxM7->setObjectName(QStringLiteral("checkBoxM7"));
-        checkBoxM7->setGeometry(QRect(0, 0, 49, 17));
-        checkBoxM7->setChecked(true);
-        labelM7 = new QLabel(widget_13);
-        labelM7->setObjectName(QStringLiteral("labelM7"));
-        labelM7->setGeometry(QRect(40, 0, 15, 17));
-        labelM7->setMaximumSize(QSize(15, 17));
-        labelM7->setStyleSheet(QStringLiteral("background-color: rgb(255, 0, 0);"));
-
-        horizontalLayout_2->addWidget(widget_13);
-
-        widget_14 = new QWidget(widget_2);
-        widget_14->setObjectName(QStringLiteral("widget_14"));
-        checkBoxM8 = new QCheckBox(widget_14);
-        checkBoxM8->setObjectName(QStringLiteral("checkBoxM8"));
-        checkBoxM8->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM8->setMaximumSize(QSize(35, 17));
-        checkBoxM8->setChecked(true);
-        labelM8 = new QLabel(widget_14);
-        labelM8->setObjectName(QStringLiteral("labelM8"));
-        labelM8->setGeometry(QRect(40, 0, 15, 17));
-        labelM8->setMaximumSize(QSize(15, 17));
-        labelM8->setStyleSheet(QStringLiteral("background-color: rgb(255, 255, 0);"));
-
-        horizontalLayout_2->addWidget(widget_14);
-
-        widget_15 = new QWidget(widget_2);
-        widget_15->setObjectName(QStringLiteral("widget_15"));
-        checkBoxM9 = new QCheckBox(widget_15);
-        checkBoxM9->setObjectName(QStringLiteral("checkBoxM9"));
-        checkBoxM9->setGeometry(QRect(0, 0, 35, 17));
-        checkBoxM9->setMaximumSize(QSize(35, 17));
-        checkBoxM9->setChecked(true);
-        labelM9 = new QLabel(widget_15);
-        labelM9->setObjectName(QStringLiteral("labelM9"));
-        labelM9->setGeometry(QRect(40, 0, 15, 17));
-        labelM9->setMaximumSize(QSize(15, 17));
-        labelM9->setStyleSheet(QStringLiteral("background-color: rgb(0, 85, 127);"));
-
-        horizontalLayout_2->addWidget(widget_15);
-
-        widget_16 = new QWidget(widget_2);
-        widget_16->setObjectName(QStringLiteral("widget_16"));
-        checkBoxM10 = new QCheckBox(widget_16);
-        checkBoxM10->setObjectName(QStringLiteral("checkBoxM10"));
-        checkBoxM10->setGeometry(QRect(0, 0, 40, 17));
-        checkBoxM10->setMaximumSize(QSize(40, 17));
-        checkBoxM10->setChecked(true);
-        labelM10 = new QLabel(widget_16);
-        labelM10->setObjectName(QStringLiteral("labelM10"));
-        labelM10->setGeometry(QRect(40, 0, 15, 17));
-        labelM10->setMaximumSize(QSize(15, 17));
-        labelM10->setStyleSheet(QLatin1String("background-color: rgb(0, 170, 255);\n"
-"background-color: rgb(85, 170, 127);"));
-
-        horizontalLayout_2->addWidget(widget_16);
-
-
-        horizontalLayout->addWidget(widget_2);
+        verticalLayout->addWidget(tableMotor);
 
         GmotorTesterSC->setCentralWidget(centralWidget);
+        tableMotor->raise();
         tabControlMotor->raise();
-        tableMotor->raise();
-        plotTemperature->raise();
-        tableMotor->raise();
         menuBar = new QMenuBar(GmotorTesterSC);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 1259, 21));
@@ -514,26 +309,6 @@ public:
         ___qtablewidgetitem16->setText(QApplication::translate("GmotorTesterSC", "0", 0));
         tableMotor->setSortingEnabled(__sortingEnabled);
 
-        checkBoxM1->setText(QApplication::translate("GmotorTesterSC", "M1", 0));
-        labelM1->setText(QString());
-        checkBoxM2->setText(QApplication::translate("GmotorTesterSC", "M2", 0));
-        labelM2->setText(QString());
-        checkBoxM3->setText(QApplication::translate("GmotorTesterSC", "M3", 0));
-        labelM3->setText(QString());
-        checkBoxM4->setText(QApplication::translate("GmotorTesterSC", "M4", 0));
-        labelM4->setText(QString());
-        checkBoxM5->setText(QApplication::translate("GmotorTesterSC", "M5", 0));
-        labelM5->setText(QString());
-        checkBoxM6->setText(QApplication::translate("GmotorTesterSC", "M6", 0));
-        labelM6->setText(QString());
-        checkBoxM7->setText(QApplication::translate("GmotorTesterSC", "M7", 0));
-        labelM7->setText(QString());
-        checkBoxM8->setText(QApplication::translate("GmotorTesterSC", "M8", 0));
-        labelM8->setText(QString());
-        checkBoxM9->setText(QApplication::translate("GmotorTesterSC", "M9", 0));
-        labelM9->setText(QString());
-        checkBoxM10->setText(QApplication::translate("GmotorTesterSC", "M10", 0));
-        labelM10->setText(QString());
         menuFile->setTitle(QApplication::translate("GmotorTesterSC", "File", 0));
         menuView->setTitle(QApplication::translate("GmotorTesterSC", "View", 0));
         menuHelp->setTitle(QApplication::translate("GmotorTesterSC", "Help", 0));

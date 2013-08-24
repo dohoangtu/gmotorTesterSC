@@ -66,6 +66,18 @@ GmotorTesterSC::GmotorTesterSC(QWidget *parent) :
     //table connect
     connect(ui->tableMotor,SIGNAL(cellChanged(int,int)),this,SLOT(pressEnterCell(int,int)));
     connect(ui->tableMotor,SIGNAL(cellDoubleClicked(int,int)),this,SLOT(DoubleClickCell(int,int)));
+    //panelcontrol
+    connect(&panelMotor[0],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel0(int,char,int)));
+    connect(&panelMotor[1],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel1(int,char,int)));
+    connect(&panelMotor[2],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel2(int,char,int)));
+    connect(&panelMotor[3],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel3(int,char,int)));
+    connect(&panelMotor[4],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel4(int,char,int)));
+    connect(&panelMotor[5],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel5(int,char,int)));
+    connect(&panelMotor[6],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel6(int,char,int)));
+    connect(&panelMotor[7],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel7(int,char,int)));
+    connect(&panelMotor[8],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel8(int,char,int)));
+    connect(&panelMotor[9],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel9(int,char,int)));
+
 
     ui->tableMotor->setEnabled(false);
 }
@@ -221,19 +233,35 @@ void GmotorTesterSC::actionOpen()
 void GmotorTesterSC::writeSerial()
 {
 }
-
-int cntwrite;
-int cntUpdateXml;
-void GmotorTesterSC::writeMavlink()
+void GmotorTesterSC::writeMavlinkPanel(int power, char id, char dir, int speed)
 {
     uint16_t len;
     mavlink_message_t msg;
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
-
     if(serial->isOpen() && ui->tabControlMotor->currentIndex() != -1)
     {
-        int idMotor;
+        mavlink_msg_test_motor_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,power,id,dir,speed,1);
+        len = mavlink_msg_to_send_buffer(buf, &msg);
+        serial->write((const char*)buf, len);
+    }
+}
+void GmotorTesterSC::writePanel0(int power, char dir, int speed){writeMavlinkPanel(power,0,dir,speed);}
+void GmotorTesterSC::writePanel1(int power, char dir, int speed){writeMavlinkPanel(power,1,dir,speed);}
+void GmotorTesterSC::writePanel2(int power, char dir, int speed){writeMavlinkPanel(power,2,dir,speed);}
+void GmotorTesterSC::writePanel3(int power, char dir, int speed){writeMavlinkPanel(power,3,dir,speed);}
+void GmotorTesterSC::writePanel4(int power, char dir, int speed){writeMavlinkPanel(power,4,dir,speed);}
+void GmotorTesterSC::writePanel5(int power, char dir, int speed){writeMavlinkPanel(power,5,dir,speed);}
+void GmotorTesterSC::writePanel6(int power, char dir, int speed){writeMavlinkPanel(power,6,dir,speed);}
+void GmotorTesterSC::writePanel7(int power, char dir, int speed){writeMavlinkPanel(power,7,dir,speed);}
+void GmotorTesterSC::writePanel8(int power, char dir, int speed){writeMavlinkPanel(power,8,dir,speed);}
+void GmotorTesterSC::writePanel9(int power, char dir, int speed){writeMavlinkPanel(power,9,dir,speed);}
 
+int cntwrite;
+//int cntUpdateXml;
+void GmotorTesterSC::writeMavlink()
+{
+    if(serial->isOpen() && ui->tabControlMotor->currentIndex() != -1)
+    {
         chartUpdate();
         cntwrite++;
         if(cntwrite > 3){
@@ -247,105 +275,33 @@ void GmotorTesterSC::writeMavlink()
            cntSerialConnect = 0;
         }
 
-
-        if(flagCloseSerial == false) idMotor = arrayDataMotor.at(ui->tabControlMotor->currentIndex());
-        else                         idMotor = 101;
-
-        panelControlMotor::panelParameter P = panelMotor[idMotor - 1].getDataControlMotor();
-        mavlink_msg_test_motor_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,P.power,idMotor-1,P.dir,P.speed,1);
-
-        len = mavlink_msg_to_send_buffer(buf, &msg);
-        serial->write((const char*)buf, len);
-
+        panelControlMotor::panelParameter P;
         for(int i = 0 ; i < arrayDataMotor.size() ; i++){
-            if(arrayDataMotor.at(i) != 0){
-                P = panelMotor[arrayDataMotor.at(i) - 1].getDataControlMotor();
-                int hour = P.timeStart/(1000*60*60);
-                int min  =(P.timeStart - hour*60*60*1000)/(60*1000);
-                int sec  =(P.timeStart - hour*60*60*1000 - min*60*1000)/1000;
-                if(hour > 23){
-                    hour = hour - 24;
-                }
-                ui->tableMotor->setItem(i,2,new QTableWidgetItem(QString(tr("%1 : %2 : %3").arg(hour).arg(min).arg(sec))));
-
-                hour = P.timeRemaining/(1000*60*60);
-                min  =(P.timeRemaining - hour*60*60*1000)/(60*1000);
-                sec  =(P.timeRemaining - hour*60*60*1000 - min*60*1000)/1000;
-                if(hour > 23){
-                    hour = hour - 24;
-                }
-                ui->tableMotor->setItem(i,4,new QTableWidgetItem(QString(tr("%1 : %2 : %3").arg(hour).arg(min).arg(sec))));
-
-                hour = P.timeStop/(1000*60*60);
-                min  =(P.timeStop - hour*60*60*1000)/(60*1000);
-                sec  =(P.timeStop - hour*60*60*1000 - min*60*1000)/1000;
-                if(hour > 23){
-                    hour = hour - 24;
-                }
-                ui->tableMotor->setItem(i,3,new QTableWidgetItem(QString(tr("%1 : %2 : %3").arg(hour).arg(min).arg(sec))));
-                ui->tableMotor->setItem(i,1,new QTableWidgetItem(QString(P.status)));
-
-                hour = P.runTime/(1000*60*60);
-                min  =(P.runTime - hour*60*60*1000)/(60*1000);
-                sec  =(P.runTime - hour*60*60*1000 - min*60*1000)/1000;
-                if(hour > 23){
-                    hour = hour - 24;
-                }
-                ui->tableMotor->setItem(i,5,new QTableWidgetItem(QString(tr("%1 : %2 : %3").arg(hour).arg(min).arg(sec))));
-            }
+                P = panelMotor[arrayDataMotor.at(i)-1].getDataControlMotor();
+                ui->tableMotor->setItem(i,1,new QTableWidgetItem(P.status));
+                ui->tableMotor->setItem(i,2,new QTableWidgetItem(P.timeStart));
+                ui->tableMotor->setItem(i,3,new QTableWidgetItem(P.timeStop));
+                ui->tableMotor->setItem(i,4,new QTableWidgetItem(P.timeRemaining));
+                ui->tableMotor->setItem(i,5,new QTableWidgetItem(P.runTime));
         }
 
-        if(ui->checkBoxM1->isChecked() == true) temperature_0->setVisible(true);
-        else                                    temperature_0->setVisible(false);
-
-        if(ui->checkBoxM2->isChecked() == true) temperature_1->setVisible(true);
-        else                                    temperature_1->setVisible(false);
-
-        if(ui->checkBoxM3->isChecked() == true) temperature_2->setVisible(true);
-        else                                    temperature_2->setVisible(false);
-
-        if(ui->checkBoxM4->isChecked() == true) temperature_3->setVisible(true);
-        else                                    temperature_3->setVisible(false);
-
-        if(ui->checkBoxM5->isChecked() == true) temperature_4->setVisible(true);
-        else                                    temperature_4->setVisible(false);
-
-        if(ui->checkBoxM6->isChecked() == true) temperature_5->setVisible(true);
-        else                                    temperature_5->setVisible(false);
-
-        if(ui->checkBoxM7->isChecked() == true) temperature_6->setVisible(true);
-        else                                    temperature_6->setVisible(false);
-
-        if(ui->checkBoxM8->isChecked() == true) temperature_7->setVisible(true);
-        else                                    temperature_7->setVisible(false);
-
-        if(ui->checkBoxM9->isChecked() == true) temperature_8->setVisible(true);
-        else                                    temperature_8->setVisible(false);
-
-        if(ui->checkBoxM10->isChecked() == true) temperature_9->setVisible(true);
-        else                                     temperature_9->setVisible(false);
-
-        cntUpdateXml++;
-        if(cntUpdateXml > 4){
-            cntUpdateXml = 0;
-            QDomDocument profile;
-            updateXMLfile(profile, "tu.xml");
-        }
+//        cntUpdateXml++;
+//        if(cntUpdateXml > 4){
+//            cntUpdateXml = 0;
+//            QDomDocument profile;
+//            updateXMLfile(profile, "tu.xml");
+//        }
 
     }
 }
-
-void GmotorTesterSC::readSerial()
-{
+void GmotorTesterSC::readSerial(){
     if(serial->isOpen())
     {
         QByteArray messageData = serial->readAll();
         emit messageReceived(messageData);
     }
 }
-
-void GmotorTesterSC::readMavlink(QByteArray buff)
-{
+void GmotorTesterSC::readMavlink(QByteArray buff){
     mavlink_message_t message;
     mavlink_status_t status;
     uint8_t byte;
@@ -402,9 +358,7 @@ void GmotorTesterSC::readMavlink(QByteArray buff)
 //------end of switch-----------------------------------------------------------------------------
     }
 }
-
-void GmotorTesterSC::heartbeatReceive(bool satatus)
-{
+void GmotorTesterSC::heartbeatReceive(bool satatus){
     if(satatus == 1){
         cntSerialConnect++;
         ui->actionLed->setChecked(true);
@@ -413,9 +367,7 @@ void GmotorTesterSC::heartbeatReceive(bool satatus)
         ui->actionLed->setChecked(false);
     }
 }
-
-void GmotorTesterSC::closeProgram()
-{
+void GmotorTesterSC::closeProgram(){
     uint16_t len;
     mavlink_message_t msg;
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
@@ -432,8 +384,7 @@ void GmotorTesterSC::closeProgram()
 }
 
 int rowMotorCurrent;
-void GmotorTesterSC::pressEnterCell(int row, int column)
-{
+void GmotorTesterSC::pressEnterCell(int row, int column){
 //    qDebug()<<tr("enter cell %1,%2").arg(row).arg(column);
     
     if(column == 6){
@@ -444,7 +395,6 @@ void GmotorTesterSC::pressEnterCell(int row, int column)
         }
     }
 }
-
 void GmotorTesterSC::DoubleClickCell(int row, int column)
 {
     if(column == 6){
@@ -461,65 +411,13 @@ void GmotorTesterSC::addTabNew(){
 
     ui->tabControlMotor->addTab(&panelMotor[index - 1],tr("MOTOR %1").arg(index));
     ui->tabControlMotor->setCurrentIndex(ui->tabControlMotor->count()-1);
-    arrayDataMotor<< index;
-
     ui->tableMotor->setItem(ui->tabControlMotor->currentIndex(),0,
                             new QTableWidgetItem((QString)tr("MOTOR %1").arg(index)));
 
-
-    if(index == 1){
-        ui->checkBoxM1->setText(tr("M%1").arg(index));
-        ui->checkBoxM1->setVisible(true);
-        ui->labelM1->setVisible(true);
-    }
-    else if(index == 2){
-        ui->checkBoxM2->setText(tr("M%1").arg(index));
-        ui->checkBoxM2->setVisible(true);
-        ui->labelM2->setVisible(true);
-    }
-    else if(index == 3){
-        ui->checkBoxM3->setText(tr("M%1").arg(index));
-        ui->checkBoxM3->setVisible(true);
-        ui->labelM3->setVisible(true);
-    }
-    else if(index == 4){
-        ui->checkBoxM4->setText(tr("M%1").arg(index));
-        ui->checkBoxM4->setVisible(true);
-        ui->labelM4->setVisible(true);
-    }
-    else if(index == 5){
-        ui->checkBoxM5->setText(tr("M%1").arg(index));
-        ui->checkBoxM5->setVisible(true);
-        ui->labelM5->setVisible(true);
-    }
-    else if(index == 6){
-        ui->checkBoxM6->setText(tr("M%1").arg(index));
-        ui->checkBoxM6->setVisible(true);
-        ui->labelM6->setVisible(true);
-    }
-    else if(index == 7){
-        ui->checkBoxM7->setText(tr("M%1").arg(index));
-        ui->checkBoxM7->setVisible(true);
-        ui->labelM7->setVisible(true);
-    }
-    else if(index == 8){
-        ui->checkBoxM8->setText(tr("M%1").arg(index));
-        ui->checkBoxM8->setVisible(true);
-        ui->labelM8->setVisible(true);
-    }
-    else if(index == 9){
-        ui->checkBoxM9->setText(tr("M%1").arg(index));
-        ui->checkBoxM9->setVisible(true);
-        ui->labelM9->setVisible(true);
-    }
-    else if(index == 10){
-        ui->checkBoxM10->setText(tr("M%1").arg(index));
-        ui->checkBoxM10->setVisible(true);
-        ui->labelM10->setVisible(true);
-    }
+    arrayDataMotor<< index;
 }
-
-void GmotorTesterSC::deleteTab(int index){
+void GmotorTesterSC::deleteTab(int index)
+{
     if(index > -1){
         int ret = QMessageBox::critical(this,"Thông Báo!",tr("bạn có muốn tắt tab số %1\n Có: OK ---- Không: Cancle").arg(ui->tabControlMotor->currentIndex() + 1),QMessageBox::Ok,QMessageBox::Cancel);
         if(ret == QMessageBox::Ok)
@@ -545,47 +443,6 @@ void GmotorTesterSC::deleteTab(int index){
             ui->tabControlMotor->removeTab(index);
             clearRowTableMotor(index);
             choseMotor.list.insert(10,motor);
-
-            if(motor.index == 1){
-                ui->checkBoxM1->setVisible(false);
-                ui->labelM1->setVisible(false);
-            }
-            else if(motor.index == 2){
-                ui->checkBoxM2->setVisible(false);
-                ui->labelM2->setVisible(false);
-            }
-            else if(motor.index == 3){
-                ui->checkBoxM3->setVisible(false);
-                ui->labelM3->setVisible(false);
-            }
-            else if(motor.index == 4){
-                ui->checkBoxM4->setVisible(false);
-                ui->labelM4->setVisible(false);
-            }
-            else if(motor.index == 5){
-                ui->checkBoxM5->setVisible(false);
-                ui->labelM5->setVisible(false);
-            }
-            else if(motor.index == 6){
-                ui->checkBoxM6->setVisible(false);
-                ui->labelM6->setVisible(false);
-            }
-            else if(motor.index == 7){
-                ui->checkBoxM7->setVisible(false);
-                ui->labelM7->setVisible(false);
-            }
-            else if(motor.index == 8){
-                ui->checkBoxM8->setVisible(false);
-                ui->labelM8->setVisible(false);
-            }
-            else if(motor.index == 9){
-                ui->checkBoxM9->setVisible(false);
-                ui->labelM9->setVisible(false);
-            }
-            else if(motor.index == 10){
-                ui->checkBoxM10->setVisible(false);
-                ui->labelM10->setVisible(false);
-            }
         }
     }
 }
@@ -593,8 +450,8 @@ void GmotorTesterSC::deleteTab(int index){
 void GmotorTesterSC::EnableMainForm(){
     this->setEnabled(true);
 }
-
-void GmotorTesterSC::stopAllPanel(){
+void GmotorTesterSC::stopAllPanel()
+{
     for(int i = 0 ; i < 10 ; i ++){
         panelMotor[i].stopTester();
     }
@@ -611,166 +468,164 @@ void GmotorTesterSC::clearRowTableMotor(int row){
     ui->tableMotor->insertRow(9);
 }
 
-int cntUpdateChart[11];
+//int cntUpdateChart[11];
 void GmotorTesterSC::chartUpdate()
 {
-    if(flagUpdateChart > 1){
-        flagUpdateChart = 0;
-        cntUpdateChart[arrayDataMotor.at(rowMotorCurrent) - 1]++;
+//    if(flagUpdateChart > 1){
+//        flagUpdateChart = 0;
+//        cntUpdateChart[arrayDataMotor.at(rowMotorCurrent) - 1]++;
 
-        if(arrayDataMotor.at(rowMotorCurrent)-1 == 0){
-            temperature_point_0 += QPointF(cntUpdateChart[0],arrayTemp[0]);
-            temperature_0->setSamples(temperature_point_0);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 1){
-            temperature_point_1 += QPointF(cntUpdateChart[1],arrayTemp[1]);
-            temperature_1->setSamples(temperature_point_1);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 2){
-            temperature_point_2 += QPointF(cntUpdateChart[2],arrayTemp[2]);
-            temperature_2->setSamples(temperature_point_2);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 3){
-            temperature_point_3 += QPointF(cntUpdateChart[3],arrayTemp[3]);
-            temperature_3->setSamples(temperature_point_3);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 4){
-            temperature_point_4 += QPointF(cntUpdateChart[4],arrayTemp[4]);
-            temperature_4->setSamples(temperature_point_4);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 5){
-            temperature_point_5 += QPointF(cntUpdateChart[5],arrayTemp[5]);
-            temperature_5->setSamples(temperature_point_5);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 6){
-            temperature_point_6 += QPointF(cntUpdateChart[6],arrayTemp[6]);
-            temperature_6->setSamples(temperature_point_6);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 7){
-            temperature_point_7 += QPointF(cntUpdateChart[7],arrayTemp[7]);
-            temperature_7->setSamples(temperature_point_7);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 8){
-            temperature_point_8 += QPointF(cntUpdateChart[8],arrayTemp[8]);
-            temperature_8->setSamples(temperature_point_8);
-        }
-        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 9){
-            temperature_point_9 += QPointF(cntUpdateChart[9],arrayTemp[9]);
-            temperature_9->setSamples(temperature_point_9);
-        }
-    }
+//        if(arrayDataMotor.at(rowMotorCurrent)-1 == 0){
+//            temperature_point_0 += QPointF(cntUpdateChart[0],arrayTemp[0]);
+//            temperature_0->setSamples(temperature_point_0);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 1){
+//            temperature_point_1 += QPointF(cntUpdateChart[1],arrayTemp[1]);
+//            temperature_1->setSamples(temperature_point_1);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 2){
+//            temperature_point_2 += QPointF(cntUpdateChart[2],arrayTemp[2]);
+//            temperature_2->setSamples(temperature_point_2);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 3){
+//            temperature_point_3 += QPointF(cntUpdateChart[3],arrayTemp[3]);
+//            temperature_3->setSamples(temperature_point_3);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 4){
+//            temperature_point_4 += QPointF(cntUpdateChart[4],arrayTemp[4]);
+//            temperature_4->setSamples(temperature_point_4);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 5){
+//            temperature_point_5 += QPointF(cntUpdateChart[5],arrayTemp[5]);
+//            temperature_5->setSamples(temperature_point_5);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 6){
+//            temperature_point_6 += QPointF(cntUpdateChart[6],arrayTemp[6]);
+//            temperature_6->setSamples(temperature_point_6);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 7){
+//            temperature_point_7 += QPointF(cntUpdateChart[7],arrayTemp[7]);
+//            temperature_7->setSamples(temperature_point_7);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 8){
+//            temperature_point_8 += QPointF(cntUpdateChart[8],arrayTemp[8]);
+//            temperature_8->setSamples(temperature_point_8);
+//        }
+//        else if(arrayDataMotor.at(rowMotorCurrent)-1 == 9){
+//            temperature_point_9 += QPointF(cntUpdateChart[9],arrayTemp[9]);
+//            temperature_9->setSamples(temperature_point_9);
+//        }
+//    }
 }
 
-void GmotorTesterSC::chartSetting()
-{
-    QwtPlotGrid *grid = new QwtPlotGrid();
-    ui->plotTemperature->setAutoReplot(true);
+void GmotorTesterSC::chartSetting(){
+//    QwtPlotGrid *grid = new QwtPlotGrid();
+//    ui->plotTemperature->setAutoReplot(true);
 
-    grid->setMinorPen(QPen(Qt::gray, 0, Qt::DotLine));
-    grid->setMajorPen(QPen(Qt::gray, 0, Qt::DotLine));
-    grid->enableX(true);
-    grid->enableY(true);
-    grid->attach(ui->plotTemperature);
+//    grid->setMinorPen(QPen(Qt::gray, 0, Qt::DotLine));
+//    grid->setMajorPen(QPen(Qt::gray, 0, Qt::DotLine));
+//    grid->enableX(true);
+//    grid->enableY(true);
+//    grid->attach(ui->plotTemperature);
 
-    temperature_0 = new QwtPlotCurve();
-    temperature_0->setTitle("temperature 0");
-    temperature_0->setPen(Qt::black, 2, Qt::SolidLine);
-    temperature_0->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_0->attach(ui->plotTemperature);
+//    temperature_0 = new QwtPlotCurve();
+//    temperature_0->setTitle("temperature 0");
+//    temperature_0->setPen(Qt::black, 2, Qt::SolidLine);
+//    temperature_0->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_0->attach(ui->plotTemperature);
 
-    temperature_1 = new QwtPlotCurve();
-    temperature_1->setTitle("temperature 1");
-    temperature_1->setPen(Qt::blue, 2, Qt::SolidLine);
-    temperature_1->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_1->attach(ui->plotTemperature);
+//    temperature_1 = new QwtPlotCurve();
+//    temperature_1->setTitle("temperature 1");
+//    temperature_1->setPen(Qt::blue, 2, Qt::SolidLine);
+//    temperature_1->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_1->attach(ui->plotTemperature);
 
-    temperature_2 = new QwtPlotCurve();
-    temperature_2->setTitle("temperature 2");
-    temperature_2->setPen(Qt::cyan, 2, Qt::SolidLine);
-    temperature_2->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_2->attach(ui->plotTemperature);
+//    temperature_2 = new QwtPlotCurve();
+//    temperature_2->setTitle("temperature 2");
+//    temperature_2->setPen(Qt::cyan, 2, Qt::SolidLine);
+//    temperature_2->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_2->attach(ui->plotTemperature);
 
-    temperature_3 = new QwtPlotCurve();
-    temperature_3->setTitle("temperature 3");
-    temperature_3->setPen(Qt::gray, 2, Qt::SolidLine);
-    temperature_3->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_3->attach(ui->plotTemperature);
+//    temperature_3 = new QwtPlotCurve();
+//    temperature_3->setTitle("temperature 3");
+//    temperature_3->setPen(Qt::gray, 2, Qt::SolidLine);
+//    temperature_3->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_3->attach(ui->plotTemperature);
 
-    temperature_4 = new QwtPlotCurve();
-    temperature_4->setTitle("temperature 4");
-    temperature_4->setPen(Qt::green, 2, Qt::SolidLine);
-    temperature_4->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_4->attach(ui->plotTemperature);
+//    temperature_4 = new QwtPlotCurve();
+//    temperature_4->setTitle("temperature 4");
+//    temperature_4->setPen(Qt::green, 2, Qt::SolidLine);
+//    temperature_4->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_4->attach(ui->plotTemperature);
 
-    temperature_5 = new QwtPlotCurve();
-    temperature_5->setTitle("temperature 5");
-    temperature_5->setPen(Qt::magenta, 2, Qt::SolidLine);
-    temperature_5->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_5->attach(ui->plotTemperature);
+//    temperature_5 = new QwtPlotCurve();
+//    temperature_5->setTitle("temperature 5");
+//    temperature_5->setPen(Qt::magenta, 2, Qt::SolidLine);
+//    temperature_5->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_5->attach(ui->plotTemperature);
 
-    temperature_6 = new QwtPlotCurve();
-    temperature_6->setTitle("temperature 6");
-    temperature_6->setPen(Qt::red, 2, Qt::SolidLine);
-    temperature_6->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_6->attach(ui->plotTemperature);
+//    temperature_6 = new QwtPlotCurve();
+//    temperature_6->setTitle("temperature 6");
+//    temperature_6->setPen(Qt::red, 2, Qt::SolidLine);
+//    temperature_6->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_6->attach(ui->plotTemperature);
 
-    temperature_7 = new QwtPlotCurve();
-    temperature_7->setTitle("temperature 7");
-    temperature_7->setPen(Qt::yellow, 2, Qt::SolidLine);
-    temperature_7->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_7->attach(ui->plotTemperature);
+//    temperature_7 = new QwtPlotCurve();
+//    temperature_7->setTitle("temperature 7");
+//    temperature_7->setPen(Qt::yellow, 2, Qt::SolidLine);
+//    temperature_7->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_7->attach(ui->plotTemperature);
 
-    temperature_8 = new QwtPlotCurve();
-    temperature_8->setTitle("temperature 8");
-    temperature_8->setPen(Qt::darkBlue, 2, Qt::SolidLine);
-    temperature_8->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_8->attach(ui->plotTemperature);
+//    temperature_8 = new QwtPlotCurve();
+//    temperature_8->setTitle("temperature 8");
+//    temperature_8->setPen(Qt::darkBlue, 2, Qt::SolidLine);
+//    temperature_8->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_8->attach(ui->plotTemperature);
 
-    temperature_9 = new QwtPlotCurve();
-    temperature_9->setTitle("temperature 9");
-    temperature_9->setPen(Qt::darkCyan, 2, Qt::SolidLine);
-    temperature_9->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_9->attach(ui->plotTemperature);
+//    temperature_9 = new QwtPlotCurve();
+//    temperature_9->setTitle("temperature 9");
+//    temperature_9->setPen(Qt::darkCyan, 2, Qt::SolidLine);
+//    temperature_9->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_9->attach(ui->plotTemperature);
 
-    temperature_axis = new QwtPlotCurve();
-    temperature_axis->setTitle("axis");
-    temperature_axis->setPen(Qt::white, 0.1, Qt::SolidLine);
-    temperature_axis->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    temperature_axis->attach(ui->plotTemperature);
+//    temperature_axis = new QwtPlotCurve();
+//    temperature_axis->setTitle("axis");
+//    temperature_axis->setPen(Qt::white, 0.1, Qt::SolidLine);
+//    temperature_axis->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+//    temperature_axis->attach(ui->plotTemperature);
 
-    temperature_point_axis += QPointF(0,0);
-    temperature_axis->setSamples(temperature_point_axis);
-    temperature_point_axis += QPointF(0,100);
-    temperature_axis->setSamples(temperature_point_axis);
-    temperature_point_axis += QPointF(100,100);
-    temperature_axis->setSamples(temperature_point_axis);
+//    temperature_point_axis += QPointF(0,0);
+//    temperature_axis->setSamples(temperature_point_axis);
+//    temperature_point_axis += QPointF(0,100);
+//    temperature_axis->setSamples(temperature_point_axis);
+//    temperature_point_axis += QPointF(100,100);
+//    temperature_axis->setSamples(temperature_point_axis);
 
-    ui->checkBoxM1->setVisible(false);
-    ui->checkBoxM2->setVisible(false);
-    ui->checkBoxM3->setVisible(false);
-    ui->checkBoxM4->setVisible(false);
-    ui->checkBoxM5->setVisible(false);
-    ui->checkBoxM6->setVisible(false);
-    ui->checkBoxM7->setVisible(false);
-    ui->checkBoxM8->setVisible(false);
-    ui->checkBoxM9->setVisible(false);
-    ui->checkBoxM10->setVisible(false);
+//    ui->checkBoxM1->setVisible(false);
+//    ui->checkBoxM2->setVisible(false);
+//    ui->checkBoxM3->setVisible(false);
+//    ui->checkBoxM4->setVisible(false);
+//    ui->checkBoxM5->setVisible(false);
+//    ui->checkBoxM6->setVisible(false);
+//    ui->checkBoxM7->setVisible(false);
+//    ui->checkBoxM8->setVisible(false);
+//    ui->checkBoxM9->setVisible(false);
+//    ui->checkBoxM10->setVisible(false);
 
-    ui->labelM1->setVisible(false);
-    ui->labelM2->setVisible(false);
-    ui->labelM3->setVisible(false);
-    ui->labelM4->setVisible(false);
-    ui->labelM5->setVisible(false);
-    ui->labelM6->setVisible(false);
-    ui->labelM7->setVisible(false);
-    ui->labelM8->setVisible(false);
-    ui->labelM9->setVisible(false);
-    ui->labelM10->setVisible(false);
+//    ui->labelM1->setVisible(false);
+//    ui->labelM2->setVisible(false);
+//    ui->labelM3->setVisible(false);
+//    ui->labelM4->setVisible(false);
+//    ui->labelM5->setVisible(false);
+//    ui->labelM6->setVisible(false);
+//    ui->labelM7->setVisible(false);
+//    ui->labelM8->setVisible(false);
+//    ui->labelM9->setVisible(false);
+//    ui->labelM10->setVisible(false);
 
 }
 
-void GmotorTesterSC::updateXMLfile(QDomDocument document, QString xmlfile)
-{
+void GmotorTesterSC::updateXMLfile(QDomDocument document, QString xmlfile){
     QDomElement groups = document.createElement("TestMotorGroups");
     document.appendChild(groups);
 
@@ -811,8 +666,7 @@ void GmotorTesterSC::updateXMLfile(QDomDocument document, QString xmlfile)
     }
 }
 
-void GmotorTesterSC::importXMLfile(QString importfile)
-{
+void GmotorTesterSC::importXMLfile(QString importfile){
     QDomDocument importProfile;
 
     //Load the file
@@ -839,8 +693,7 @@ void GmotorTesterSC::importXMLfile(QString importfile)
 //    ui->txtTest->setText(tr("temperature: %1").arg(ListElements(root, "Motor1", "temperature")));
 }
 
-int GmotorTesterSC::ListElements(QDomElement root, QString tagname, QString attribute)
-{
+int GmotorTesterSC::ListElements(QDomElement root, QString tagname, QString attribute){
     QDomNodeList items = root.elementsByTagName(tagname);
 
     qDebug() << "Total items = " << items.count();
@@ -859,4 +712,5 @@ int GmotorTesterSC::ListElements(QDomElement root, QString tagname, QString attr
     }
     return 0;
 }
+
 //END PROGAMER -----------------------------------------------------------------------------------

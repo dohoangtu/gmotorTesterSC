@@ -11,6 +11,7 @@ panelControlMotor::panelControlMotor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::panelControlMotor)
 {
+
     ui->setupUi(this);
     // set status begining -----------------------------------------------------------------------
     ui->gbControl->setEnabled(false);
@@ -41,6 +42,7 @@ panelControlMotor::panelControlMotor(QWidget *parent) :
 
     connect(this,SIGNAL(showEvent(QShowEvent*)),this,SLOT(loadForm()));
     connect(this,SIGNAL(closeEvent(QCloseEvent*)),this,SLOT(closeForm()));
+//    timeDisplayMotor->start(100);
 }
 
 panelControlMotor::~panelControlMotor()
@@ -67,12 +69,7 @@ void panelControlMotor::stopTester()
 
 void panelControlMotor::statTester()
 {
-     ui->fMotor->setEnabled(true);
-}
-
-void panelControlMotor::closeProgram()
-{
-    qDebug()<<"close panel control motor";
+    ui->fMotor->setEnabled(true);
 }
 
 void panelControlMotor::btPowerClicked(bool status)
@@ -97,9 +94,6 @@ void panelControlMotor::btPowerClicked(bool status)
     }
 }
 
-int msec;
-int msecSystem;
-int msecStart;
 void panelControlMotor::btRunClicked(bool status)
 {
     qDebug()<<"button run pannel click!";
@@ -108,9 +102,8 @@ void panelControlMotor::btRunClicked(bool status)
         QTime hous = ui->timeSet->time();
         QTime housSystem = QTime::currentTime();
 
-        msec = hous.second()*1000 + hous.minute()*60*1000 + hous.hour()*60*60*1000;
-        msecSystem = housSystem.second()*1000 + housSystem.minute()*60*1000 + housSystem.hour()*60*60*1000;
-
+        int msec = hous.second()*1000 + hous.minute()*60*1000 + hous.hour()*60*60*1000;
+        int msecSystem = housSystem.second()*1000 + housSystem.minute()*60*1000 + housSystem.hour()*60*60*1000;
 
         if(msec != 0)
         {
@@ -119,7 +112,8 @@ void panelControlMotor::btRunClicked(bool status)
 
             if(msec != timeMotorSetOld || timeRemainingMotor == 0)
             {
-                msecStart = msecSystem;
+                controlMotor.timeStart = tr("%1:%2:%3").arg(housSystem.hour()).arg(housSystem.minute()).arg(housSystem.second());
+               // TimeStart = tr("%1:%2:%3").arg(housSystem.hour()).arg(housSystem.minute()).arg(housSystem.second());
                 ui->pbTimeProcess->setValue(0);
                 timeMotorSetOld = msec;
                 timeMotor->start(timeMotorSetOld);
@@ -128,7 +122,9 @@ void panelControlMotor::btRunClicked(bool status)
             {
                 timeMotor->start(timeRemainingMotor);
             }
+
             timeProcess->start(1000);
+            timeDisplayMotor->start(100);
             ui->btDir->setEnabled(true);
             ui->btPause->setEnabled(true);
             ui->ValueSpeed->setEnabled(true);
@@ -136,10 +132,16 @@ void panelControlMotor::btRunClicked(bool status)
 
             controlMotor.speed = ui->ValueSpeed->value();
             controlMotor.power = ui->valuePower->value();
-            timeDisplayMotor->start(ui->ValueSpeed->value());
             if(controlMotor.dir == 4) controlMotor.dir = dirOld;
-            controlMotor.timeStop = msecSystem + timeRemainingMotor;
 
+            int tempMiliSec = msecSystem + timeMotor->remainingTime();
+            int hour = tempMiliSec/(1000*60*60);
+            int min  =(tempMiliSec - hour*60*60*1000)/(60*1000);
+            int sec  =(tempMiliSec - hour*60*60*1000 - min*60*1000)/1000;
+            if(hour > 24)   hour -=24;
+            controlMotor.timeStop =  tr("%1:%2:%3").arg(hour).arg(min).arg(sec);
+
+            emit writePannel(ui->valuePower->value(),controlMotor.dir,ui->ValueSpeed->value());
         }
         else
         {
@@ -171,23 +173,26 @@ void panelControlMotor::btRunClicked(bool status)
         timeMotor->stop();
         timeDisplayMotor->stop();
         controlMotor.power = 0;
+        emit writePannel(0,controlMotor.dir,ui->ValueSpeed->value());
 END:;
     }
 }
 
 void panelControlMotor::btPauseClicked(bool status)
 {
-    qDebug()<<"button pause pannel click!";
+//    qDebug()<<"button pause pannel click!";
     if(status == true)
     {
         dirOld = controlMotor.dir;
         controlMotor.dir = 4;
+        emit writePannel(ui->valuePower->value(),controlMotor.dir,ui->ValueSpeed->value());
         timeDisplayMotor->stop();
         ui->btDir->setEnabled(false);
     }
     else
     {
         controlMotor.dir = dirOld;
+        emit writePannel(ui->valuePower->value(),controlMotor.dir,ui->ValueSpeed->value());
         timeDisplayMotor->start(ui->ValueSpeed->value());
         ui->btDir->setEnabled(true);
     }
@@ -195,19 +200,22 @@ void panelControlMotor::btPauseClicked(bool status)
 
 void panelControlMotor::btDirClicked(bool status)
 {
-    qDebug()<<"button Dir pannel click!";
+//    qDebug()<<"button Dir pannel click!";
     if(status == true)
     {
         controlMotor.dir = 1;
+        emit writePannel(ui->valuePower->value(),1,ui->ValueSpeed->value());
     }
     else
     {
         controlMotor.dir = 0;
+        emit writePannel(ui->valuePower->value(),0,ui->ValueSpeed->value());
     }
 }
 
 void panelControlMotor::VSpeedChange(int speed)
 {
+    emit writePannel(ui->valuePower->value(),controlMotor.dir,ui->ValueSpeed->value());
     ui->lcdSpeed->display(speed);
     timeDisplayMotor->start(speed);
     ui->lbSpeed->setText(tr("SPEED: %1ms").arg(speed));
@@ -215,12 +223,16 @@ void panelControlMotor::VSpeedChange(int speed)
 
 void panelControlMotor::VPowerChange(int Power)
 {
+    emit writePannel(ui->valuePower->value(),controlMotor.dir,ui->ValueSpeed->value());
     ui->lbPower->setText(tr("POWER: %1%").arg(Power));
 }
 
 void panelControlMotor::timeProcessOut()
 {
+    QTime hous = ui->timeSet->time();
+    int msec = hous.second()*1000 + hous.minute()*60*1000 + hous.hour()*60*60*1000;
     timeRemainingMotor = timeMotor->remainingTime();
+
     int hour = timeRemainingMotor/(1000*60*60);
     int min  =(timeRemainingMotor - hour*60*60*1000)/(60*1000);
     int sec  =(timeRemainingMotor - hour*60*60*1000 - min*60*1000)/1000;   
@@ -230,19 +242,23 @@ void panelControlMotor::timeProcessOut()
     ui->remainingMinute->display(min);
     ui->remainingSecond->display(sec);
 
-    controlMotor.timeRemaining = timeRemainingMotor;
-    controlMotor.runTime = msec - timeRemainingMotor;
+    controlMotor.timeRemaining = tr("%1:%2:%3").arg(hour).arg(min).arg(sec);
+
+    int tempMiliSec = msec - timeMotor->remainingTime();
+    hour = tempMiliSec/(1000*60*60);
+    min  =(tempMiliSec - hour*60*60*1000)/(60*1000);
+    sec  =(tempMiliSec - hour*60*60*1000 - min*60*1000)/1000;
+    controlMotor.runTime = tr("%1:%2:%3").arg(hour).arg(min).arg(sec);
+
     controlMotor.status = "Run testing";
     controlMotor.speed = ui->ValueSpeed->value();
     controlMotor.power = ui->valuePower->value();
-    controlMotor.timeStart = msecStart;
-    controlMotor.timeStop = msecSystem + msec;
-
 }
 
 void panelControlMotor::timeMotorOut()
 {
-    qDebug()<<"time Motor tick";
+//    qDebug()<<"time Motor tick";
+    emit writePannel(0,0,ui->ValueSpeed->value());
     controlMotor.power = 0;
     timeRemainingMotor = 0;
     controlMotor.status = "END Testing";
@@ -257,10 +273,11 @@ void panelControlMotor::timeMotorOut()
 
 void panelControlMotor::timeDisplayMotorOut()
 {
-//    qDebug()<<"time display Motor tick";
+    qDebug()<<"time display Motor tick";
     if(controlMotor.dir == 0){
         cnt++;
         if(cnt>99) cnt = 0;
+
         ui->Motor->setValue(cnt);
     }
     else if(controlMotor.dir == 1){
@@ -272,24 +289,24 @@ void panelControlMotor::timeDisplayMotorOut()
 
 void panelControlMotor::loadForm()
 {
-    controlMotor.status = "Begin Testing";
-    controlMotor.dir = 0;
-    controlMotor.power = 0;
-    controlMotor.speed = 11;
-    controlMotor.timeRemaining = 0;
-    controlMotor.timeStart = 0;
-    controlMotor.timeStop = 0;
-    controlMotor.runTime = 0;
+//    controlMotor.status = "Begin Testing";
+//    controlMotor.dir = 0;
+//    controlMotor.power = 0;
+//    controlMotor.speed = 11;
+//    controlMotor.timeRemaining = "00:00:00";
+//    controlMotor.timeStart = "00:00:00";
+//    controlMotor.timeStop = "00:00:00";
+//    controlMotor.runTime = "00:00:00";
 }
 
 void panelControlMotor::closeForm()
 {
-    qDebug()<<"close form panels";
+//    qDebug()<<"close form panels";
     controlMotor.dir = 0;
     controlMotor.power = 0;
     controlMotor.speed = 11;
-    controlMotor.timeRemaining = 0;
-    controlMotor.timeStart = 0;
-    controlMotor.timeStop = 0;
-    controlMotor.runTime = 0;
+    controlMotor.timeRemaining = "00:00:00";
+    controlMotor.timeStart = "00:00:00";
+    controlMotor.timeStop = "00:00:00";
+    controlMotor.runTime = "00:00:00";
 }
