@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include "thirdparty/mavlink/v1.0/testMotor/mavlink.h"
+#include "thirdparty/mavlink/v1.0/mavGmotorTesterSC/mavlink.h"
 #include <QTreeView>
 #include <QStandardItemModel>
 #include <QStandardItem>
@@ -26,7 +26,7 @@ bool chartTimerStarted = false;
 bool flagCloseSerial;
 char flagUpdateChart;
 mavlink_raw_imu_t raw_imu;
-mavlink_test_motor_t motor1;
+mavlink_mav_gmotor_test_mcu2pc_t motor1;
 QComboBox *combox;
 
 int arrayTemp[10];
@@ -41,8 +41,7 @@ GmotorTesterSC::GmotorTesterSC(QWidget *parent) :
     timeTransmit = new QTimer;
     standarMode = new QStandardItemModel;
     combox = new QComboBox;
-    ui->actionNew->setEnabled(false);
-    chartSetting();
+//    chartSetting();
 
     //connect action
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(actionNew()));
@@ -78,7 +77,7 @@ GmotorTesterSC::GmotorTesterSC(QWidget *parent) :
     connect(&panelMotor[8],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel8(int,char,int)));
     connect(&panelMotor[9],SIGNAL(writePannel(int,char,int)),this,SLOT(writePanel9(int,char,int)));
 
-
+//    ui->actionNew->setEnabled(false);
     ui->tableMotor->setEnabled(false);
 }
 ///-----------------------------------------------------------------------------------------------
@@ -219,6 +218,7 @@ void GmotorTesterSC::actionConnect(bool status)
         ui->actionConnect->setChecked(false);
         ui->actionNew->setEnabled(false);
         ui->statusBar->showMessage(tr("đã ngắt kết nối cổng com"));
+        serial->close();
     }
 
 END:;
@@ -240,7 +240,8 @@ void GmotorTesterSC::writeMavlinkPanel(int power, char id, char dir, int speed)
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
     if(serial->isOpen() && ui->tabControlMotor->currentIndex() != -1)
     {
-        mavlink_msg_test_motor_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,power,id,dir,speed,1);
+        qDebug("writeMavlink");
+        mavlink_msg_mav_gmotor_test_pc2mcu_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,BOARD_ADDR1,MOTOR1,CW,100,5);
         len = mavlink_msg_to_send_buffer(buf, &msg);
         serial->write((const char*)buf, len);
     }
@@ -262,18 +263,18 @@ void GmotorTesterSC::writeMavlink()
 {
     if(serial->isOpen() && ui->tabControlMotor->currentIndex() != -1)
     {
-        chartUpdate();
-        cntwrite++;
-        if(cntwrite > 3){
-            cntwrite = 0;
-            if(cntSerialConnect >1){
-                startAllPanel();
-            }
-            else{
-                stopAllPanel();
-            }
-           cntSerialConnect = 0;
-        }
+//        chartUpdate();
+//        cntwrite++;
+//        if(cntwrite > 3){
+//            cntwrite = 0;
+//            if(cntSerialConnect >1){
+//                startAllPanel();
+//            }
+//            else{
+//                stopAllPanel();
+//            }
+//           cntSerialConnect = 0;
+//        }
 
         panelControlMotor::panelParameter P;
         for(int i = 0 ; i < arrayDataMotor.size() ; i++){
@@ -334,12 +335,12 @@ void GmotorTesterSC::readMavlink(QByteArray buff){
         case MAVLINK_MSG_ID_PARAM_VALUE:
             break;
 //------du lieu nhan tu duoi vi dieu khien truyen len---------------------------------------------
-        case MAVLINK_MSG_ID_TEST_MOTOR:
-            motor1.power = mavlink_msg_test_motor_get_power(&message);
-            motor1.status = mavlink_msg_test_motor_get_status(&message);
-            motor1.dir = mavlink_msg_test_motor_get_dir(&message);
-            motor1.speed = mavlink_msg_test_motor_get_speed(&message);
-            motor1.temperature = mavlink_msg_test_motor_get_temperature(&message);
+        case MAVLINK_MSG_ID_MAV_GMOTOR_TEST_MCU2PC:
+            motor1.board_address = mavlink_msg_mav_gmotor_test_mcu2pc_get_board_address(&message);
+            motor1.motor_address = mavlink_msg_mav_gmotor_test_mcu2pc_get_motor_address(&message);
+            motor1.motor_status = mavlink_msg_mav_gmotor_test_mcu2pc_get_motor_status(&message);
+            motor1.motor_temp = mavlink_msg_mav_gmotor_test_mcu2pc_get_motor_temp(&message);
+
 //            qDebug()<<tr("power: %1, status: %2, dir: %3, speed: %4, temparature: %5")
 //                                  .arg(motor1.power)
 //                                  .arg(motor1.status)
@@ -347,10 +348,10 @@ void GmotorTesterSC::readMavlink(QByteArray buff){
 //                                  .arg(motor1.speed)
 //                                  .arg(motor1.temperature*330/4096);
 
-            if(motor1.status == 100){
-                serial->close();
-                timeTransmit->stop();
-            }
+//            if(motor1.motor_status !=){
+//                serial->close();
+//                timeTransmit->stop();
+//            }
             break;
         default:
             break;
@@ -358,13 +359,15 @@ void GmotorTesterSC::readMavlink(QByteArray buff){
 //------end of switch-----------------------------------------------------------------------------
     }
 }
+
 void GmotorTesterSC::heartbeatReceive(bool satatus){
     if(satatus == 1){
-        cntSerialConnect++;
+        cntSerialConnect = 0;
         ui->actionLed->setChecked(true);
     }
     else{
-        ui->actionLed->setChecked(false);
+        cntSerialConnect++;
+        if(cntSerialConnect > 100)   ui->actionLed->setChecked(false);
     }
 }
 void GmotorTesterSC::closeProgram(){
@@ -374,7 +377,7 @@ void GmotorTesterSC::closeProgram(){
     if(serial->isOpen())
     {
         qDebug()<<"close Program";
-        mavlink_msg_test_motor_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,0,100,0,0,0);
+        mavlink_msg_mav_gmotor_test_pc2mcu_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,BOARD_ADDR8,MOTOR5,0,0,0);
         len = mavlink_msg_to_send_buffer(buf, &msg);
         serial->write((const char*)buf, len);
     }
@@ -432,7 +435,7 @@ void GmotorTesterSC::deleteTab(int index)
 
             if(serial->isOpen())
             {
-                mavlink_msg_test_motor_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,0,motor.index - 1,0,0,0);
+                mavlink_msg_mav_gmotor_test_pc2mcu_pack(SYSTEM_ID, MAV_COMP_ID_SERVO1,&msg,(motor.index - 1)/5,(motor.index - 1)%5,0,0,0);
 
                 len = mavlink_msg_to_send_buffer(buf, &msg);
                 serial->write((const char*)buf, len);

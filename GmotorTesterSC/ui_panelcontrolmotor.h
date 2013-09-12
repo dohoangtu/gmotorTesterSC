@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QDial>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
@@ -39,7 +38,6 @@ public:
     QFrame *fMotor;
     QPushButton *btPower;
     QGroupBox *gbControl;
-    QDial *Motor;
     QSlider *ValueSpeed;
     QSlider *valuePower;
     QLabel *lbPower;
@@ -48,6 +46,7 @@ public:
     QPushButton *btRun;
     QPushButton *btPause;
     QPushButton *btDir;
+    QwtDial *Motor;
     QFrame *frame_2;
     QGroupBox *gbDisplay;
     QVBoxLayout *verticalLayout;
@@ -136,15 +135,6 @@ public:
         gbControl->setMaximumSize(QSize(1000, 1000));
         gbControl->setStyleSheet(QStringLiteral(""));
         gbControl->setFlat(true);
-        Motor = new QDial(gbControl);
-        Motor->setObjectName(QStringLiteral("Motor"));
-        Motor->setEnabled(true);
-        Motor->setGeometry(QRect(30, 60, 251, 201));
-        Motor->setMinimum(1);
-        Motor->setInvertedAppearance(false);
-        Motor->setInvertedControls(false);
-        Motor->setWrapping(true);
-        Motor->setNotchesVisible(true);
         ValueSpeed = new QSlider(gbControl);
         ValueSpeed->setObjectName(QStringLiteral("ValueSpeed"));
         ValueSpeed->setGeometry(QRect(270, 80, 31, 171));
@@ -201,16 +191,10 @@ public:
         btDir->setIcon(icon3);
         btDir->setIconSize(QSize(40, 40));
         btDir->setCheckable(true);
-        Motor->raise();
-        ValueSpeed->raise();
-        valuePower->raise();
-        lbPower->raise();
-        lbSpeed->raise();
-        pbTimeProcess->raise();
-        btRun->raise();
-        btPause->raise();
-        btDir->raise();
-        fMotor->raise();
+        Motor = new QwtDial(gbControl);
+        Motor->setObjectName(QStringLiteral("Motor"));
+        Motor->setGeometry(QRect(29, 40, 251, 211));
+        Motor->setLineWidth(4);
         gbControl->raise();
         btPower->raise();
 
@@ -359,22 +343,9 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_3);
 
-        lcdTemperature->raise();
-        lbTemperature->raise();
-        lcdSpeed->raise();
-        lbVSpeed->raise();
-        label_3->raise();
-        remainingSecond->raise();
-        label->raise();
-        remainingMinute->raise();
-        label_2->raise();
-        remainingHour->raise();
         lbRemaingTime->raise();
         timeSet->raise();
         lbTimeSet->raise();
-        lcdTemperature->raise();
-        lcdTemperature->raise();
-        lbTemperature->raise();
         displaySpeed = new QwtDial(frame_2);
         displaySpeed->setObjectName(QStringLiteral("displaySpeed"));
         displaySpeed->setGeometry(QRect(10, 205, 170, 115));
@@ -403,7 +374,6 @@ public:
         fMotor->raise();
         frame->raise();
         frame_2->raise();
-        chartTemp->raise();
 
         retranslateUi(panelControlMotor);
 

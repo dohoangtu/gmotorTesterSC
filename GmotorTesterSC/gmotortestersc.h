@@ -7,7 +7,7 @@
 #include <settingserial.h>
 #include <messagebox.h>
 #include <QTimer>
-#include "thirdparty/mavlink/v1.0/testMotor/mavlink.h"
+#include "thirdparty/mavlink/v1.0/mavGmotorTesterSC/mavlink.h"
 #include <QEvent>
 #include <QTreeView>
 #include <QStandardItemModel>
@@ -87,28 +87,6 @@ private:
     QStandardItem *Motor_2;
     QStandardItem *Motor_3;
     QList<int> arrayDataMotor;
-
-    QwtPlotCurve *temperature_0;
-    QwtPlotCurve *temperature_1;
-    QwtPlotCurve *temperature_2;
-    QwtPlotCurve *temperature_3;
-    QwtPlotCurve *temperature_4;
-    QwtPlotCurve *temperature_5;
-    QwtPlotCurve *temperature_6;
-    QwtPlotCurve *temperature_7;
-    QwtPlotCurve *temperature_8;
-    QwtPlotCurve *temperature_9;
-
-    QPolygonF temperature_point_1;
-    QPolygonF temperature_point_2;
-    QPolygonF temperature_point_3;
-    QPolygonF temperature_point_4;
-    QPolygonF temperature_point_5;
-    QPolygonF temperature_point_6;
-    QPolygonF temperature_point_7;
-    QPolygonF temperature_point_8;
-    QPolygonF temperature_point_9;
-    QPolygonF temperature_point_0;
 
     QwtPlotCurve *temperature_axis;
     QPolygonF temperature_point_axis;

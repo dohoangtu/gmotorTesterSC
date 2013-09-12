@@ -28,7 +28,7 @@ HEADERS  += gmotortestersc.h \
     choseaddmotor.h \
     settingserial.h \
     messagebox.h    \
-    thirdparty/mavlink/v1.0/testMotor/mavlink.h
+    thirdparty/mavlink/v1.0/mavGmotorTesterSC/mavlink.h
 
 FORMS    += gmotortestersc.ui \
     panelcontrolmotor.ui \

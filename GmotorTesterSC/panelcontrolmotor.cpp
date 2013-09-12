@@ -5,7 +5,14 @@
 #include <QTimer>
 #include <QDateTime>
 
-bool flagTest;
+#include <qwt_plot.h>
+#include <qwt_series_data.h>
+#include <qwt_plot_curve.h>
+#include <qwt_plot_grid.h>
+#include <qwt_symbol.h>
+#include <qwt_compass.h>
+#include <qwt_dial.h>
+#include <qwt_dial_needle.h>
 
 panelControlMotor::panelControlMotor(QWidget *parent) :
     QWidget(parent),
@@ -28,6 +35,7 @@ panelControlMotor::panelControlMotor(QWidget *parent) :
     ui->btDir->setEnabled(false);
     ui->btPause->setEnabled(false);
 
+    chartSetting();
     //bt connect function ------------------------------------------------------------------------
     connect(ui->btPower,SIGNAL(clicked(bool)),this,SLOT(btPowerClicked(bool)));
     connect(ui->btRun,SIGNAL(clicked(bool)),this,SLOT(btRunClicked(bool)));
@@ -42,7 +50,21 @@ panelControlMotor::panelControlMotor(QWidget *parent) :
 
     connect(this,SIGNAL(showEvent(QShowEvent*)),this,SLOT(loadForm()));
     connect(this,SIGNAL(closeEvent(QCloseEvent*)),this,SLOT(closeForm()));
-//    timeDisplayMotor->start(100);
+
+    QwtRoundScaleDraw *motorDraw = new QwtRoundScaleDraw();
+    motorDraw->enableComponent( QwtAbstractScaleDraw::Ticks, true );
+    motorDraw->enableComponent( QwtAbstractScaleDraw::Labels, true );
+    motorDraw->enableComponent( QwtAbstractScaleDraw::Backbone, true );
+
+    motorDraw->setTickLength( QwtScaleDiv::MinorTick, 3);
+    motorDraw->setTickLength( QwtScaleDiv::MediumTick, 5);
+    motorDraw->setTickLength( QwtScaleDiv::MajorTick, 10);
+    motorDraw->setPenWidth(1);
+    ui->Motor->setScaleDraw(motorDraw);
+
+    ui->Motor->setNeedle( new QwtDialSimpleNeedle( QwtDialSimpleNeedle::Arrow,true,Qt::red,Qt::blue));
+
+    chartSetting();
 }
 
 panelControlMotor::~panelControlMotor()
@@ -123,8 +145,7 @@ void panelControlMotor::btRunClicked(bool status)
                 timeMotor->start(timeRemainingMotor);
             }
 
-            timeProcess->start(1000);
-            timeDisplayMotor->start(100);
+            timeProcess->start(1);
             ui->btDir->setEnabled(true);
             ui->btPause->setEnabled(true);
             ui->ValueSpeed->setEnabled(true);
@@ -133,6 +154,7 @@ void panelControlMotor::btRunClicked(bool status)
             controlMotor.speed = ui->ValueSpeed->value();
             controlMotor.power = ui->valuePower->value();
             if(controlMotor.dir == 4) controlMotor.dir = dirOld;
+            timeDisplayMotor->start(ui->ValueSpeed->value());
 
             int tempMiliSec = msecSystem + timeMotor->remainingTime();
             int hour = tempMiliSec/(1000*60*60);
@@ -227,8 +249,8 @@ void panelControlMotor::VPowerChange(int Power)
     ui->lbPower->setText(tr("POWER: %1%").arg(Power));
 }
 
-void panelControlMotor::timeProcessOut()
-{
+void panelControlMotor::timeProcessOut(){
+//    qDebug()<<"time timeProcessOut Motor tick";
     QTime hous = ui->timeSet->time();
     int msec = hous.second()*1000 + hous.minute()*60*1000 + hous.hour()*60*60*1000;
     timeRemainingMotor = timeMotor->remainingTime();
@@ -253,6 +275,14 @@ void panelControlMotor::timeProcessOut()
     controlMotor.status = "Run testing";
     controlMotor.speed = ui->ValueSpeed->value();
     controlMotor.power = ui->valuePower->value();
+
+    int speed = ui->ValueSpeed->value();
+    if(controlMotor.dir == 1) ui->Motor->setValue(timeDisplayMotor->remainingTime()/speed);
+    else                      ui->Motor->setValue((speed*100 - timeDisplayMotor->remainingTime())/speed);
+    if(timeDisplayMotor->remainingTime() == 0) timeDisplayMotor->start(speed*100);
+
+    min = tempMiliSec/(60*1000);
+    chartUpdate(min,min*2);
 }
 
 void panelControlMotor::timeMotorOut()
@@ -273,22 +303,20 @@ void panelControlMotor::timeMotorOut()
 
 void panelControlMotor::timeDisplayMotorOut()
 {
-    qDebug()<<"time display Motor tick";
-    if(controlMotor.dir == 0){
-        cnt++;
-        if(cnt>99) cnt = 0;
+//    qDebug()<<"time display Motor tick";
+//    if(controlMotor.dir == 0){
+//        cnt++;
+//        if(cnt>99) cnt = 0;
+//    }
+//    else if(controlMotor.dir == 1){
+//        cnt--;
+//        if(cnt<0) cnt = 99;
+//    }
 
-        ui->Motor->setValue(cnt);
-    }
-    else if(controlMotor.dir == 1){
-        cnt--;
-        if(cnt<0) cnt = 99;
-        ui->Motor->setValue(cnt);
-    }
+//    ui->Motor->setValue(cnt);
 }
 
-void panelControlMotor::loadForm()
-{
+void panelControlMotor::loadForm(){
 //    controlMotor.status = "Begin Testing";
 //    controlMotor.dir = 0;
 //    controlMotor.power = 0;
@@ -299,8 +327,7 @@ void panelControlMotor::loadForm()
 //    controlMotor.runTime = "00:00:00";
 }
 
-void panelControlMotor::closeForm()
-{
+void panelControlMotor::closeForm(){
 //    qDebug()<<"close form panels";
     controlMotor.dir = 0;
     controlMotor.power = 0;
@@ -309,4 +336,28 @@ void panelControlMotor::closeForm()
     controlMotor.timeStart = "00:00:00";
     controlMotor.timeStop = "00:00:00";
     controlMotor.runTime = "00:00:00";
+}
+
+void panelControlMotor::chartSetting()
+{
+    QwtPlotGrid *grid = new QwtPlotGrid();
+    ui->chartTemp->setAutoReplot(true);
+
+    grid->setMinorPen(QPen(Qt::gray, 0, Qt::DotLine));
+    grid->setMajorPen(QPen(Qt::gray, 0, Qt::DotLine));
+    grid->enableX(true);
+    grid->enableY(true);
+    grid->attach(ui->chartTemp);
+
+    temperature = new QwtPlotCurve();
+    temperature->setTitle("temperature");
+    temperature->setPen(Qt::black, 2, Qt::SolidLine);
+    temperature->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+    temperature->attach(ui->chartTemp);
+}
+
+void panelControlMotor::chartUpdate(int min, int temp)
+{
+    temperature_point += QPointF(min,temp);
+    temperature->setSamples(temperature_point);
 }

@@ -6,6 +6,15 @@
 #include <QSerialPort>
 #include <QEvent>
 
+#include <qwt_plot.h>
+#include <qwt_series_data.h>
+#include <qwt_plot_curve.h>
+#include <qwt_plot_grid.h>
+#include <qwt_symbol.h>
+#include <qwt_compass.h>
+#include <qwt_dial.h>
+
+
 namespace Ui {
 class panelControlMotor;
 }
@@ -57,17 +66,22 @@ private slots:
     void timeDisplayMotorOut();
     void loadForm();
     void closeForm();
+    //chart
+    void chartSetting();
+    void chartUpdate(int min, int temp);
 
 private:
     Ui::panelControlMotor *ui;
     QTimer *timeProcess;
     QTimer *timeMotor;
     QTimer *timeDisplayMotor;
-
+    QwtPlotCurve *temperature;
+    QPolygonF temperature_point;
+    bool flagTest;
     int timeRemainingMotor;
     int timeMotorSetOld;
-    int dirOld;
-    int cnt;
+    char dirOld;
+    char cnt;
 };
 
 #endif // PANELCONTROLMOTOR_H
